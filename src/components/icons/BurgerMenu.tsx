@@ -1,4 +1,4 @@
-export default function BurguerMenu() {
+export default function BurgerMenu() {
   return (
     <svg
       width="24"

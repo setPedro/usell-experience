@@ -13,7 +13,7 @@ export default function TopSection() {
     <div className="w-full px-6 py-8 sm:p-[48px] lg:p-[72px] flex flex-col gap-9 bg-foreground text-background">
       <div className="flex flex-col lg:flex-row lg:gap-6 items-center justify-center">
         <div className={cn("text-5xl", TiroTelugu.className)}>About Us</div>
-        <hr className="h-[30px] border rotate-90 lg:rotate-0 border-background" />
+        <hr className="h-[30px] border  rotate-90 lg:rotate-0 border-background" />
         <div className="font-bold text-center lg:text-left">
           Our team provides solution to businesses just like yours
         </div>

@@ -1,11 +1,7 @@
-"use client";
-
 import Button from "@/components/Button";
 import Logo from "@/components/icons/Logo";
 import { cn } from "@/utils/cn";
-import { Span } from "next/dist/trace";
 import { Tiro_Telugu } from "next/font/google";
-import { useState, useEffect } from "react";
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -13,16 +9,6 @@ const TiroTelugu = Tiro_Telugu({
 });
 
 export default function LastSection() {
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
-    return () => {
-      window.removeEventListener("resize", () =>
-        setWindowWidth(window.innerWidth)
-      );
-    };
-  }, []);
   return (
     <div className="w-full flex flex-col gap-9 lg:gap-[72px] px-6 pt-8 sm:px-12 sm:pt-12 lg:px-[72px] lg:pt-[72px] bg-background text-white">
       <div className="flex flex-col-reverse md:flex-row items-center gap-12">

@@ -17,7 +17,10 @@ module.exports = {
         navbutton: "#39419e44",
         indigo: "#38419D",
         darkbackground: "#0F1035",
+        sidebarbackground: "#2B2C3C",
         skyblue: "#5B6AFF",
+        gray: "#929292",
+        appbackground: "#1E1E1E"
       },
     },
   },
