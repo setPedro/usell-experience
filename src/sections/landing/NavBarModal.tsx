@@ -1,5 +1,4 @@
 import Button from "@/components/Button";
-import Logo from "@/components/icons/Logo";
 import WhiteLogo from "@/components/icons/WhiteLogo";
 
 type Props = {

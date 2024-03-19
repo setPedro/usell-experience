@@ -8,7 +8,6 @@ import { NavBarModal } from "./NavBarModal";
 import { usePathname } from "next/navigation";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-import WhiteLogoName from "@/components/icons/WhiteLogoName";
 import WhiteLogo from "@/components/icons/WhiteLogo";
 
 export default function NavBar() {
