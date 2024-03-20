@@ -2,55 +2,96 @@
 
 import Button from "@/components/Button";
 import ProtectedRoute from "@/components/protectedRoute";
+import { useAuth } from "@/context/FirebaseContext";
+import { db } from "@/lib/firebase";
+import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
+import { child, get, ref, set } from "firebase/database";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Web, Websites } from "./WebsiteTypes";
+import { generateId } from "@/utils/generateId";
 
 export default function MainApp() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [websites, setWebsites] = useState<Websites>();
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
   const [loadingReview, setLoadingReview] = useState<boolean>(false);
 
-  const [openAIResponse, setOpenAIResponse] = useState<string>("");
+  const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
 
-  const handleClick = async () => {
-    setLoadingPreview(true);
-    try {
-      const res = await fetch(
-        `https://v2.convertapi.com/convert/web/to/png?Secret=SEAmI4OIwY6LApMs&Url=${input}&StoreFile=true&ConversionDelay=5`
-      );
-      const data = await res.json();
-      setImageURL(data.Files[0].Url);
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  const auth = useAuth();
+  const user = auth?.user;
+
+  // read db
+  if (websites === undefined && user) {
+    const userId = user.uid;
+    const userRef = ref(db);
+    get(child(userRef, `users/${userId}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setWebsites(snapshot.val());
+      } else {
+        setWebsites({});
+      }
+    });
+  }
+
+  // write to db
+  const websitesToDatabase = async (newWebId: string, newWebsite: Web) => {
+    if (user) {
+      const userId = user.uid;
+      const userRef = ref(db, `users/${userId}/${newWebId}`);
+      set(userRef, newWebsite)
+        .then(() => {
+          console.log("Website added successfully");
+        })
+        .catch((error) => {
+          console.error("Error adding website: ", error);
+        });
     }
+  };
+
+  const handlePreview = async () => {
+    setLoadingPreview(true);
+    let _imageURL = imageURL;
+  
+    if (input) {
+      _imageURL = await generateImageFromURL(input); // Await and set imageURL
+      setImageURL(_imageURL);
+      createWebsite(_imageURL);
+    }
+  
     setLoadingPreview(false);
+    return _imageURL; // Return the updated imageURL
+  };
+
+  const createWebsite = async (imageURL: string) => {
+    if (input && imageURL !== null) {
+      const newWebId = generateId();
+      const newWebsite: Web = {
+        imageURL,
+        input,
+      };
+      websitesToDatabase(newWebId, newWebsite);
+    } else {
+      console.log("Website URL required");
+    }
   };
 
   const handleReview = async () => {
+    setOpenAIResponse("");
     setLoadingReview(true);
-    await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ image_url: imageURL }),
-    }).then(async (response: any) => {
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      while (true) {
-        const { done, value } = await reader?.read();
+  
+    let _imageURL = imageURL;
+  
+    if (!_imageURL) {
+      _imageURL = await handlePreview();
+    }
 
-        if (done) {
-          break;
-        }
-
-        var currentChunk = decoder.decode(value);
-        setOpenAIResponse((prev) => prev + currentChunk);
-        setLoadingReview(false);
-      }
-    });
+    const _openAIResponse = await generateGPTReview(_imageURL);
+    setOpenAIResponse(_openAIResponse);
+    setLoadingReview(false);
   };
 
   return (
@@ -126,7 +167,7 @@ export default function MainApp() {
               <div className="flex flex-col lg:flex-row gap-6 w-full lg:justify-between">
                 <Button bg="whiteapp">Browse Prompts</Button>
                 <div className="flex flex-col lg:flex-row gap-2.5">
-                  <Button bg="whiteapp" onClick={handleClick}>
+                  <Button bg="whiteapp" onClick={handlePreview}>
                     Preview
                   </Button>
                   <Button bg="gradientapp" onClick={handleReview}>
