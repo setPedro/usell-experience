@@ -3,19 +3,17 @@
 import Button from "@/components/Button";
 import ProtectedRoute from "@/components/protectedRoute";
 import { useAuth } from "@/context/FirebaseContext";
-import { db } from "@/lib/firebase";
 import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
-import { child, get, ref, set } from "firebase/database";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Web, Websites } from "./WebsiteTypes";
-import { generateId } from "@/utils/generateId";
+import { Websites } from "./WebsiteTypes";
+import { createWebsite, readWebsitesFromDB } from "@/services/db";
 
 export default function MainApp() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [websites, setWebsites] = useState<Websites>();
+  const [websites, setWebsites] = useState<Websites>({});
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
   const [loadingReview, setLoadingReview] = useState<boolean>(false);
 
@@ -24,71 +22,31 @@ export default function MainApp() {
   const auth = useAuth();
   const user = auth?.user;
 
-  // read db
-  if (websites === undefined && user) {
-    const userId = user.uid;
-    const userRef = ref(db);
-    get(child(userRef, `users/${userId}`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        setWebsites(snapshot.val());
-      } else {
-        setWebsites({});
-      }
-    });
-  }
-
-  // write to db
-  const websitesToDatabase = async (newWebId: string, newWebsite: Web) => {
+  useEffect(() => {
     if (user) {
-      const userId = user.uid;
-      const userRef = ref(db, `users/${userId}/${newWebId}`);
-      set(userRef, newWebsite)
-        .then(() => {
-          console.log("Website added successfully");
-        })
-        .catch((error) => {
-          console.error("Error adding website: ", error);
-        });
+      readWebsitesFromDB(user, setWebsites);
     }
-  };
+  }, [user, setWebsites]);
 
   const handlePreview = async () => {
     setLoadingPreview(true);
     let _imageURL = imageURL;
-  
-    if (input) {
+    if (input && user) {
       _imageURL = await generateImageFromURL(input); // Await and set imageURL
       setImageURL(_imageURL);
-      createWebsite(_imageURL);
+      createWebsite(_imageURL, input, user);
     }
-  
     setLoadingPreview(false);
     return _imageURL; // Return the updated imageURL
-  };
-
-  const createWebsite = async (imageURL: string) => {
-    if (input && imageURL !== null) {
-      const newWebId = generateId();
-      const newWebsite: Web = {
-        imageURL,
-        input,
-      };
-      websitesToDatabase(newWebId, newWebsite);
-    } else {
-      console.log("Website URL required");
-    }
   };
 
   const handleReview = async () => {
     setOpenAIResponse("");
     setLoadingReview(true);
-  
     let _imageURL = imageURL;
-  
     if (!_imageURL) {
       _imageURL = await handlePreview();
     }
-
     const _openAIResponse = await generateGPTReview(_imageURL);
     setOpenAIResponse(_openAIResponse);
     setLoadingReview(false);
