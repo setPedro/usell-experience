@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       },
     ],
     stream: true,
-    max_tokens: 32,
+    max_tokens: 64,
   });
 
   const stream = OpenAIStream(response);

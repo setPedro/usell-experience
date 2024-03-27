@@ -1,4 +1,5 @@
-import { Web, Websites } from "@/sections/app/WebsiteTypes";
+
+import { Web, Websites } from "@/state/websites/types";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 

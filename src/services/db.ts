@@ -1,8 +1,7 @@
 import { db } from "@/lib/firebase";
-import { Web, Websites } from "@/sections/app/WebsiteTypes";
+import { Web } from "@/state/websites/types";
 import { generateId } from "@/utils/generateId";
 import { getDate } from "@/utils/timestamp";
-import { formatURL } from "@/utils/urlFormatted";
 import { User } from "firebase/auth";
 import { child, get, ref, set } from "firebase/database";
 

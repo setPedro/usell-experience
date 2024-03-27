@@ -4,20 +4,23 @@ import WhiteLogo from "@/components/icons/WhiteLogo";
 import Link from "next/link";
 import DisplayWeb from "./webName/DisplayWeb";
 import { useAuth } from "@/context/FirebaseContext";
-import { Websites } from "@/sections/app/WebsiteTypes";
+import { Websites } from "@/state/websites/types";
+import { useAppSelector } from "@/state/store";
+import { selectWebsiteValue } from "@/state/websites/selector";
+
 
 type Props = {
-  websites: Websites | null;
   isSelected: boolean;
 };
 
-export const SideBarModal: React.FC<Props> = ({ websites, isSelected }) => {
+export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
   const auth = useAuth();
   const user = auth?.user;
+  const websites = useAppSelector(selectWebsiteValue);
 
   return (
     <>
-      <div className="flex flex-col w-full items-center gap-6">
+      <div className="overflow-y-auto flex flex-col w-full items-center gap-6">
         <Link href="/" className=" flex items-center gap-2 w-min">
           <WhiteLogo />
           <p className="font-semibold text-sm">uSell Experience</p>

@@ -5,46 +5,53 @@ import ProtectedRoute from "@/components/protectedRoute";
 import { useAuth } from "@/context/FirebaseContext";
 import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Websites } from "./WebsiteTypes";
 import { createWebsite, readWebsitesFromDB } from "@/services/db";
 import { testResponseToSaveMoney } from "@/app/api/chat/prompts";
 import { formatURL } from "@/utils/urlFormatted";
+import { Websites } from "@/state/websites/types";
+import { useAppDispatch, useAppSelector } from "@/state/store";
+import { selectWebsiteValue } from "@/state/websites/selector";
+import { setWebsites } from "@/state/websites/reducer";
 
 export default function MainApp() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [websites, setWebsites] = useState<Websites | null>(null);
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
   const [loadingReview, setLoadingReview] = useState<boolean>(false);
-
   const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
 
+  const dispatch = useAppDispatch();
+  const websites = useAppSelector(selectWebsiteValue);
+
   const auth = useAuth();
-  const user = auth?.user;
+  let user = auth?.user;
 
   //readwebsites (unused here at the moment)
-  if (websites === null && user) {
+
+  useEffect(() => {
     const fetchWebsites = async () => {
-      const _websites = await readWebsitesFromDB(user);
-      setWebsites(_websites);
+      if (Object.keys(websites).length === 0 && user) {
+        const _websites = await readWebsitesFromDB(user);
+        dispatch(setWebsites({ websites: _websites }));
+      }
     };
     fetchWebsites();
-  }
+  }, [user]);
 
   const handlePreview = async () => {
-    if (!imageURL) {
-    setLoadingPreview(true);      
-    }
     let _imageURL = imageURL;
-    // setImageURL("");
-    if (input && user) {
-      _imageURL = await generateImageFromURL(input); // Await and set imageURL
-      setImageURL(_imageURL);
+    // only call convertAPI first time user previews, not if it previews and then reviews
+    if (!imageURL) {
+      setLoadingPreview(true);
+      if (input && user) {
+        _imageURL = await generateImageFromURL(input); // Await and set imageURL
+        console.log("Website image previewed");
+        setImageURL(_imageURL);
+      }
+      setLoadingPreview(false);
     }
-    setLoadingPreview(false);
-    console.log("Website image previewed");
     return _imageURL; // Return the updated imageURL
   };
 
@@ -61,8 +68,10 @@ export default function MainApp() {
     let _input = formatURL(input);
     if (input && user) {
       createWebsite(_imageURL, _input, user);
+      const _websites = await readWebsitesFromDB(user);
+      dispatch(setWebsites({ websites: _websites }));
     }
-    console.log("Website image reviewed");
+    console.log("reviewed");
     setLoadingReview(false);
   };
 

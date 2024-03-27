@@ -4,4 +4,4 @@ export type Web = {
     timestamp: string
 };
 
-export type Websites = Record<string, Web>;
+export type Websites = Record<string, Web> 
