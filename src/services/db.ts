@@ -1,39 +1,41 @@
 import { db } from "@/lib/firebase";
 import { Web, Websites } from "@/sections/app/WebsiteTypes";
 import { generateId } from "@/utils/generateId";
+import { getDate } from "@/utils/timestamp";
+import { formatURL } from "@/utils/urlFormatted";
 import { User } from "firebase/auth";
 import { child, get, ref, set } from "firebase/database";
 
 // create website
-export const createWebsite = async (imageURL: string, input: string, user: User) => {
-    if (input && imageURL !== null && user) {
-      const newWebId = generateId();
-      const newWebsite: Web = {
-        imageURL,
-        input,
-      };
-      websitesToDatabase(newWebId, newWebsite, user);
-    } else {
-      console.log("Website URL required");
-    }
-  };
-
-
-type setWebsitesType = React.Dispatch<React.SetStateAction<Websites>>;
-// read websites from db
-export const readWebsitesFromDB = async (
-  user: User,
-  setWebsites: setWebsitesType
+export const createWebsite = async (
+  imageURL: string,
+  input: string,
+  user: User
 ) => {
-  if (!user) return; // stop the function if there is no user
+  if (input && imageURL !== null && user) {
+    const newWebId = generateId();
+    const timestamp = getDate();
+    const newWebsite: Web = {
+      imageURL,
+      input,
+      timestamp,
+    };
+    websitesToDatabase(newWebId, newWebsite, user);
+  } else {
+    console.log("Website URL required");
+  }
+};
+
+// read websites from db
+export const readWebsitesFromDB = async (user: User) => {
   const userId = user.uid;
   const userRef = ref(db);
   try {
     const snapshot = await get(child(userRef, `users/${userId}`));
-    if (snapshot.exists()) {
-      setWebsites(snapshot.val());
+    if (!snapshot.exists()) {
+      return null;
     } else {
-      setWebsites({});
+      return snapshot.val();
     }
   } catch (error) {
     console.error("Error reading websites from DB:", error);

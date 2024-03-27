@@ -1,7 +1,7 @@
 export async function generateImageFromURL(input: string) {
   try {
     const res = await fetch(
-      `https://v2.convertapi.com/convert/web/to/png?Secret=SEAmI4OIwY6LApMs&Url=${input}&StoreFile=true&ConversionDelay=5`
+      `https://v2.convertapi.com/convert/web/to/png?Secret=IK0O6yJ4GSuZNaB3&Url=${input}&StoreFile=true&ConversionDelay=5`
     );
     const data = await res.json();
     const image_url = data.Files[0].Url;

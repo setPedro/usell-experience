@@ -1,15 +1,24 @@
+import { Web, Websites } from "@/sections/app/WebsiteTypes";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 interface Props {
-  children: React.ReactNode;
-  onClick?: () => void;
   isSelected?: boolean;
+  website: Web;
+  index: number;
+  websites: Websites;
 }
 
-const DisplayWeb: React.FC<Props> = ({ children, onClick, isSelected }) => {
+const DisplayWeb: React.FC<Props> = ({
+  isSelected,
+  website,
+  index,
+  websites,
+}) => {
+  const keys = Object.keys(websites);
   return (
-    <div
-      onClick={onClick}
+    <Link
+      href={`/app/${keys[index]}`}
       className={cn(
         "flex flex-col px-3 py-1.5",
         isSelected
@@ -17,8 +26,9 @@ const DisplayWeb: React.FC<Props> = ({ children, onClick, isSelected }) => {
           : "rounded-lg hover:bg-appbackground/15"
       )}
     >
-      {children}
-    </div>
+      <p className="font-bold text-base">{website.input}</p>
+      <p className="text-gray font-medium text-xs">{website.timestamp}</p>
+    </Link>
   );
 };
 

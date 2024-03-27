@@ -5,15 +5,17 @@ import ProtectedRoute from "@/components/protectedRoute";
 import { useAuth } from "@/context/FirebaseContext";
 import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Websites } from "./WebsiteTypes";
 import { createWebsite, readWebsitesFromDB } from "@/services/db";
+import { testResponseToSaveMoney } from "@/app/api/chat/prompts";
+import { formatURL } from "@/utils/urlFormatted";
 
 export default function MainApp() {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [websites, setWebsites] = useState<Websites>({});
+  const [websites, setWebsites] = useState<Websites | null>(null);
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
   const [loadingReview, setLoadingReview] = useState<boolean>(false);
 
@@ -22,33 +24,45 @@ export default function MainApp() {
   const auth = useAuth();
   const user = auth?.user;
 
-  useEffect(() => {
-    if (user) {
-      readWebsitesFromDB(user, setWebsites);
-    }
-  }, [user, setWebsites]);
+  //readwebsites (unused here at the moment)
+  if (websites === null && user) {
+    const fetchWebsites = async () => {
+      const _websites = await readWebsitesFromDB(user);
+      setWebsites(_websites);
+    };
+    fetchWebsites();
+  }
 
   const handlePreview = async () => {
-    setLoadingPreview(true);
+    if (!imageURL) {
+    setLoadingPreview(true);      
+    }
     let _imageURL = imageURL;
+    // setImageURL("");
     if (input && user) {
       _imageURL = await generateImageFromURL(input); // Await and set imageURL
       setImageURL(_imageURL);
-      createWebsite(_imageURL, input, user);
     }
     setLoadingPreview(false);
+    console.log("Website image previewed");
     return _imageURL; // Return the updated imageURL
   };
 
   const handleReview = async () => {
     setOpenAIResponse("");
     setLoadingReview(true);
-    let _imageURL = imageURL;
+    let _imageURL = "";
     if (!_imageURL) {
       _imageURL = await handlePreview();
     }
     const _openAIResponse = await generateGPTReview(_imageURL);
     setOpenAIResponse(_openAIResponse);
+    // create the new Website to pass it to database
+    let _input = formatURL(input);
+    if (input && user) {
+      createWebsite(_imageURL, _input, user);
+    }
+    console.log("Website image reviewed");
     setLoadingReview(false);
   };
 
