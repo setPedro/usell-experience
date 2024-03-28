@@ -5,19 +5,11 @@ import WhiteBurgerMenu from "../icons/WhiteBurger";
 import Link from "next/link";
 import { useState } from "react";
 import { SideBarModal } from "./SideBarModal";
-import { useAuth } from "@/context/FirebaseContext";
-
-import { useAppDispatch, useAppSelector } from "@/state/store";
-import { selectWebsiteValue } from "@/state/websites/selector";
 
 export default function SideBar() {
   const [sideBarModalIsOpen, setSideBarModalIsOpen] = useState<boolean>(false);
 
   const [isSelected, setIsSelected] = useState<boolean>(false);
-  const auth = useAuth();
-  const user = auth?.user;
-
-  const dispatch = useAppDispatch();
 
   return (
     <div className="h-fit fixed lg:relative lg:h-screen border-b  lg:border-0 w-full lg:min-w-64 lg:max-w-64 flex flex-col items-center justify-between p-4 lg:p-6 bg-sidebarbackground">

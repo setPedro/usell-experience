@@ -10,12 +10,12 @@ import ReactMarkdown from "react-markdown";
 import { createWebsite, readWebsitesFromDB } from "@/services/db";
 import { testResponseToSaveMoney } from "@/app/api/chat/prompts";
 import { formatURL } from "@/utils/urlFormatted";
-import { Websites } from "@/state/websites/types";
 import { useAppDispatch, useAppSelector } from "@/state/store";
 import { selectWebsiteValue } from "@/state/websites/selector";
 import { setWebsites } from "@/state/websites/reducer";
+import { useRouter } from "next/navigation";
 
-export default function MainApp() {
+export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
@@ -25,24 +25,38 @@ export default function MainApp() {
   const dispatch = useAppDispatch();
   const websites = useAppSelector(selectWebsiteValue);
 
+  const router = useRouter();
   const auth = useAuth();
-  let user = auth?.user;
+  const user = auth?.user;
 
   //readwebsites (unused here at the moment)
-
   useEffect(() => {
     const fetchWebsites = async () => {
-      if (Object.keys(websites).length === 0 && user) {
-        const _websites = await readWebsitesFromDB(user);
-        dispatch(setWebsites({ websites: _websites }));
+      if (websites) {
+        if (Object.keys(websites).length === 0 && user) {
+          const _websites = await readWebsitesFromDB(user);
+          dispatch(setWebsites({ websites: _websites }));
+        }
       }
     };
     fetchWebsites();
-  }, [user]);
+  }, [user, dispatch, websites]);
+
+  // set the specific values when user is in the slug
+  useEffect(() => {
+    if (websites) {
+      const keys = Object.keys(websites);
+      if (keys.length === 0 || !websites[webId]) {
+        return;
+      }
+      setImageURL(websites[webId].imageURL);
+      setOpenAIResponse(websites[webId].openAIResponse)
+    }
+  }, [user, websites, webId]);
 
   const handlePreview = async () => {
     let _imageURL = imageURL;
-    // only call convertAPI first time user previews, not if it previews and then reviews
+    // only call convertAPI the first time user previews, not if it previews and then reviews
     if (!imageURL) {
       setLoadingPreview(true);
       if (input && user) {
@@ -66,12 +80,16 @@ export default function MainApp() {
     setOpenAIResponse(_openAIResponse);
     // create the new Website to pass it to database
     let _input = formatURL(input);
-    if (input && user) {
-      createWebsite(_imageURL, _input, user);
+    if (input && user && _openAIResponse) {
+      createWebsite(_imageURL, _input, _openAIResponse, user);
       const _websites = await readWebsitesFromDB(user);
       dispatch(setWebsites({ websites: _websites }));
     }
-    console.log("reviewed");
+    console.log("hello from review after previewing", websites)
+    if (websites) {
+      const keys = Object.keys(websites);
+      router.push(`/app/${keys[keys.length - 1]}`);
+    }
     setLoadingReview(false);
   };
 

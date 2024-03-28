@@ -9,6 +9,7 @@ import { child, get, ref, set } from "firebase/database";
 export const createWebsite = async (
   imageURL: string,
   input: string,
+  openAIResponse: string,
   user: User
 ) => {
   if (input && imageURL !== null && user) {
@@ -17,6 +18,7 @@ export const createWebsite = async (
     const newWebsite: Web = {
       imageURL,
       input,
+      openAIResponse,
       timestamp,
     };
     websitesToDatabase(newWebId, newWebsite, user);
