@@ -4,10 +4,8 @@ import WhiteLogo from "@/components/icons/WhiteLogo";
 import Link from "next/link";
 import DisplayWeb from "./webName/DisplayWeb";
 import { useAuth } from "@/context/FirebaseContext";
-import { Websites } from "@/state/websites/types";
 import { useAppSelector } from "@/state/store";
 import { selectWebsiteValue } from "@/state/websites/selector";
-
 
 type Props = {
   isSelected: boolean;
@@ -33,9 +31,7 @@ export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
             ? Object.values(websites).map((website, index) => (
                 <DisplayWeb
                   key={index}
-                  index={index}
                   website={website}
-                  websites={websites}
                   isSelected={isSelected}
                 />
               ))

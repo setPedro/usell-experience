@@ -7,9 +7,8 @@ import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { createWebsite, readWebsitesFromDB } from "@/services/db";
-import { testResponseToSaveMoney } from "@/app/api/chat/prompts";
-import { formatURL } from "@/utils/urlFormatted";
+import { createWebsite, readWebsites } from "@/services/db";
+import { formatURL } from "@/utils/formatURL";
 import { useAppDispatch, useAppSelector } from "@/state/store";
 import { selectWebsiteValue } from "@/state/websites/selector";
 import { setWebsites } from "@/state/websites/reducer";
@@ -29,12 +28,12 @@ export default function MainApp({ webId }: { webId: string }) {
   const auth = useAuth();
   const user = auth?.user;
 
-  //readwebsites (unused here at the moment)
+  //readwebsites
   useEffect(() => {
     const fetchWebsites = async () => {
       if (websites) {
         if (Object.keys(websites).length === 0 && user) {
-          const _websites = await readWebsitesFromDB(user);
+          const _websites = await readWebsites(user);
           dispatch(setWebsites({ websites: _websites }));
         }
       }
@@ -50,45 +49,52 @@ export default function MainApp({ webId }: { webId: string }) {
         return;
       }
       setImageURL(websites[webId].imageURL);
-      setOpenAIResponse(websites[webId].openAIResponse)
+      setOpenAIResponse(websites[webId].openAIResponse);
     }
   }, [user, websites, webId]);
 
   const handlePreview = async () => {
-    let _imageURL = imageURL;
-    // only call convertAPI the first time user previews, not if it previews and then reviews
-    if (!imageURL) {
-      setLoadingPreview(true);
-      if (input && user) {
-        _imageURL = await generateImageFromURL(input); // Await and set imageURL
-        console.log("Website image previewed");
-        setImageURL(_imageURL);
-      }
-      setLoadingPreview(false);
+    let _imageURL: string | any = imageURL;
+    setImageURL("")
+    setLoadingPreview(true);
+    if (input && user) {
+      _imageURL = await generateImageFromURL(input); // Await and set imageURL
+      console.log("Website image previewed");
+      setImageURL(_imageURL);
     }
+    setLoadingPreview(false);
+
     return _imageURL; // Return the updated imageURL
   };
 
   const handleReview = async () => {
     setOpenAIResponse("");
     setLoadingReview(true);
-    let _imageURL = "";
-    if (!_imageURL) {
-      _imageURL = await handlePreview();
-    }
-    const _openAIResponse = await generateGPTReview(_imageURL);
-    setOpenAIResponse(_openAIResponse);
-    // create the new Website to pass it to database
+    let _imageURL = imageURL
+    let _openAIResponse: string | undefined = ""
     let _input = formatURL(input);
-    if (input && user && _openAIResponse) {
-      createWebsite(_imageURL, _input, _openAIResponse, user);
-      const _websites = await readWebsitesFromDB(user);
-      dispatch(setWebsites({ websites: _websites }));
+    if (!imageURL) {
+     _imageURL = await handlePreview();  
+     _openAIResponse = await generateGPTReview(_imageURL);
+    setOpenAIResponse(_openAIResponse);         
+    } else {
+      _openAIResponse = await generateGPTReview(imageURL);
+    setOpenAIResponse(_openAIResponse);         
     }
-    console.log("hello from review after previewing", websites)
-    if (websites) {
-      const keys = Object.keys(websites);
-      router.push(`/app/${keys[keys.length - 1]}`);
+
+    // create the new Website to pass it to database
+    if (input && user && _openAIResponse) {
+      const _newWebId = await createWebsite(
+        _imageURL,
+        _input,
+        _openAIResponse,
+        user
+      );
+      const _websites = await readWebsites(user);
+      dispatch(setWebsites({ websites: _websites }));
+      if (_newWebId) {
+        router.push(`/app/${_newWebId}`);
+      }
     }
     setLoadingReview(false);
   };

@@ -7,9 +7,8 @@ import { useState } from "react";
 import { SideBarModal } from "./SideBarModal";
 
 export default function SideBar() {
-  const [sideBarModalIsOpen, setSideBarModalIsOpen] = useState<boolean>(false);
-
-  const [isSelected, setIsSelected] = useState<boolean>(false);
+  const [sideBarModalIsOpen, setSideBarModalIsOpen] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   return (
     <div className="h-fit fixed lg:relative lg:h-screen border-b  lg:border-0 w-full lg:min-w-64 lg:max-w-64 flex flex-col items-center justify-between p-4 lg:p-6 bg-sidebarbackground">

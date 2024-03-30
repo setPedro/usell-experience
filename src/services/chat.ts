@@ -1,17 +1,20 @@
 export async function generateImageFromURL(input: string) {
   try {
-    const res = await fetch(
-      `https://v2.convertapi.com/convert/web/to/png?Secret=IK0O6yJ4GSuZNaB3&Url=${input}&StoreFile=true&ConversionDelay=5`
-    );
-    const data = await res.json();
-    const image_url = data.Files[0].Url;
-    return image_url;
+    const res = await fetch("/api/convertapi", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ input: input }),
+    });
+    const data = await res.text()
+    return data
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
 
-export async function generateGPTReview(imageURL: string) {
+export async function generateGPTReview(imageURL: string | undefined) {
   try {
     const res = await fetch("/api/chat", {
       method: "POST",

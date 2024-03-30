@@ -10,24 +10,23 @@ import { useAppSelector } from "@/state/store";
 import { selectWebsiteValue } from "@/state/websites/selector";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  const auth = useAuth();
   const router = useRouter();
   const websites = useAppSelector(selectWebsiteValue);
 
-  console.log("params.slug: ", params.slug);
   useEffect(() => {
-    if (!websites) {
-      return;
-    }
-    const keys = Object.keys(websites);
-    const match = keys.filter((key) => key === params.slug);
+    if (websites) {
+      const keys = Object.keys(websites);
+      const match = keys.filter((key) => key === params.slug);
 
-    if (keys.length === 0) {
-      return;
-    }
+      if (keys.length === 0) {
+        return;
+      }
 
-    if (match.length > 0) {
-      console.log("slug matched with a web");
+      if (match.length > 0) {
+        return;
+      } else {
+        router.push("/app");
+      }
     } else {
       router.push("/app");
     }

@@ -1,25 +1,22 @@
-
-import { Web, Websites } from "@/state/websites/types";
+import { Web } from "@/state/websites/types";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 interface Props {
   isSelected?: boolean;
   website: Web;
-  index: number;
-  websites: Websites;
 }
 
-const DisplayWeb: React.FC<Props> = ({
-  isSelected,
-  website,
-  index,
-  websites,
-}) => {
-  const keys = Object.keys(websites);
+const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
+  dayjs.extend(relativeTime);
+  const timestamp = website.timestamp; // Timestamp from the database
+  const timeSince = dayjs(timestamp).fromNow();
+  console.log(website.id)
   return (
     <Link
-      href={`/app/${keys[index]}`}
+      href={`/app/${website.id}`}
       className={cn(
         "flex flex-col px-3 py-1.5",
         isSelected
@@ -28,7 +25,7 @@ const DisplayWeb: React.FC<Props> = ({
       )}
     >
       <p className="font-bold text-base">{website.input}</p>
-      <p className="text-gray font-medium text-xs">{website.timestamp}</p>
+      <p className="text-gray font-medium text-xs">{timeSince}</p>
     </Link>
   );
 };
