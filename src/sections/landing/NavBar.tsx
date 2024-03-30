@@ -11,7 +11,7 @@ import Link from "next/link";
 import WhiteLogo from "@/components/icons/WhiteLogo";
 
 export default function NavBar() {
-  const [navBarModalIsOpen, setNavBarModalIsOpen] = useState<boolean>(false);
+  const [navBarModalIsOpen, setNavBarModalIsOpen] = useState(false);
   const pathname = usePathname();
   return (
     <nav

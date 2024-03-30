@@ -3,7 +3,6 @@
 import SideBar from "@/components/sidebar/SideBar";
 import ProtectedRoute from "@/components/protectedRoute";
 import MainApp from "@/sections/app/MainApp";
-import { useAuth } from "@/context/FirebaseContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppSelector } from "@/state/store";
@@ -24,12 +23,9 @@ export default function Page({ params }: { params: { slug: string } }) {
 
       if (match.length > 0) {
         return;
-      } else {
-        router.push("/app");
       }
-    } else {
-      router.push("/app");
-    }
+    } 
+    router.push("/app");
   }, [params.slug, websites]);
 
   return (

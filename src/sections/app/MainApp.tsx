@@ -17,8 +17,8 @@ import { useRouter } from "next/navigation";
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
-  const [loadingReview, setLoadingReview] = useState<boolean>(false);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const [loadingReview, setLoadingReview] = useState(false);
   const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
 
   const dispatch = useAppDispatch();
@@ -54,11 +54,11 @@ export default function MainApp({ webId }: { webId: string }) {
   }, [user, websites, webId]);
 
   const handlePreview = async () => {
-    let _imageURL: string | any = imageURL;
-    setImageURL("")
+    let _imageURL = imageURL;
+    setImageURL("");
     setLoadingPreview(true);
     if (input && user) {
-      _imageURL = await generateImageFromURL(input); // Await and set imageURL
+      _imageURL = (await generateImageFromURL(input)) as string; // Await and set imageURL
       console.log("Website image previewed");
       setImageURL(_imageURL);
     }
@@ -70,17 +70,14 @@ export default function MainApp({ webId }: { webId: string }) {
   const handleReview = async () => {
     setOpenAIResponse("");
     setLoadingReview(true);
-    let _imageURL = imageURL
-    let _openAIResponse: string | undefined = ""
+    let _imageURL = imageURL;
+    let _openAIResponse: string | undefined = "";
     let _input = formatURL(input);
-    if (!imageURL) {
-     _imageURL = await handlePreview();  
-     _openAIResponse = await generateGPTReview(_imageURL);
-    setOpenAIResponse(_openAIResponse);         
-    } else {
-      _openAIResponse = await generateGPTReview(imageURL);
-    setOpenAIResponse(_openAIResponse);         
+    if (!_imageURL) {
+      _imageURL = await handlePreview();
     }
+    _openAIResponse = await generateGPTReview(_imageURL);
+    setOpenAIResponse(_openAIResponse);
 
     // create the new Website to pass it to database
     if (input && user && _openAIResponse) {

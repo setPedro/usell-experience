@@ -13,7 +13,6 @@ const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
   dayjs.extend(relativeTime);
   const timestamp = website.timestamp; // Timestamp from the database
   const timeSince = dayjs(timestamp).fromNow();
-  console.log(website.id)
   return (
     <Link
       href={`/app/${website.id}`}
