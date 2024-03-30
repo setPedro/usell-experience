@@ -1,3 +1,3 @@
 import { RootState } from "../store";
 
-export const selectWebsiteValue = (state: RootState) => state.websites
+export const selectWebsites = (state: RootState) => state.websites.websites

@@ -1,19 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Web, Websites } from "./types";
+import { Websites, WebsiteState } from "./types";
 
-interface SetWebsitesPayload {
-  websites: Websites;
-}
-
-const initialState: Websites = {};
+const initialState: WebsiteState = {
+  websites: {}
+};
 
 const websitesSlice = createSlice({
   name: "websites",
   initialState,
   reducers: {
-    setWebsites(state, action: PayloadAction<SetWebsitesPayload>) {
-      return action.payload.websites;
-    },
+    setWebsites(state, action: PayloadAction<Websites>) {
+      state.websites = action.payload;
+    }
   },
 });
 

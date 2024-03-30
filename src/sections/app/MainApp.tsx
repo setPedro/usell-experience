@@ -10,9 +10,10 @@ import ReactMarkdown from "react-markdown";
 import { createWebsite, readWebsites } from "@/services/db";
 import { formatURL } from "@/utils/formatURL";
 import { useAppDispatch, useAppSelector } from "@/state/store";
-import { selectWebsiteValue } from "@/state/websites/selector";
+import { selectWebsites } from "@/state/websites/selector";
 import { setWebsites } from "@/state/websites/reducer";
 import { useRouter } from "next/navigation";
+import { Websites } from "@/state/websites/types";
 
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
@@ -22,7 +23,7 @@ export default function MainApp({ webId }: { webId: string }) {
   const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
 
   const dispatch = useAppDispatch();
-  const websites = useAppSelector(selectWebsiteValue);
+  const websites = useAppSelector(selectWebsites);
 
   const router = useRouter();
   const auth = useAuth();
@@ -33,8 +34,8 @@ export default function MainApp({ webId }: { webId: string }) {
     const fetchWebsites = async () => {
       if (websites) {
         if (Object.keys(websites).length === 0 && user) {
-          const _websites = await readWebsites(user);
-          dispatch(setWebsites({ websites: _websites }));
+          const _websites: Websites = await readWebsites(user) || {};
+          dispatch(setWebsites(_websites));
         }
       }
     };
@@ -87,8 +88,8 @@ export default function MainApp({ webId }: { webId: string }) {
         _openAIResponse,
         user
       );
-      const _websites = await readWebsites(user);
-      dispatch(setWebsites({ websites: _websites }));
+      const _websites: Websites = await readWebsites(user) || {};
+      dispatch(setWebsites(_websites));
       if (_newWebId) {
         router.push(`/app/${_newWebId}`);
       }

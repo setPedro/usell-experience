@@ -5,7 +5,7 @@ import Link from "next/link";
 import DisplayWeb from "./webName/DisplayWeb";
 import { useAuth } from "@/context/FirebaseContext";
 import { useAppSelector } from "@/state/store";
-import { selectWebsiteValue } from "@/state/websites/selector";
+import { selectWebsites } from "@/state/websites/selector";
 
 type Props = {
   isSelected: boolean;
@@ -14,7 +14,7 @@ type Props = {
 export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
   const auth = useAuth();
   const user = auth?.user;
-  const websites = useAppSelector(selectWebsiteValue);
+  const websites = useAppSelector(selectWebsites);
 
   return (
     <>

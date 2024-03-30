@@ -7,3 +7,5 @@ export type Web = {
 };
 
 export type Websites = Record<string, Web>;
+
+export type WebsiteState = { websites: Websites };

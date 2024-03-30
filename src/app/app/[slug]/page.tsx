@@ -6,11 +6,11 @@ import MainApp from "@/sections/app/MainApp";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppSelector } from "@/state/store";
-import { selectWebsiteValue } from "@/state/websites/selector";
+import { selectWebsites } from "@/state/websites/selector";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
-  const websites = useAppSelector(selectWebsiteValue);
+  const websites = useAppSelector(selectWebsites);
 
   useEffect(() => {
     if (websites) {

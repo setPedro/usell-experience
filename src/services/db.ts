@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { Web } from "@/state/websites/types";
+import { Web, Websites } from "@/state/websites/types";
 import { generateId } from "@/utils/generateId";
 import { User } from "firebase/auth";
 import { child, get, ref, set } from "firebase/database";
@@ -37,7 +37,7 @@ export const readWebsites = async (user: User) => {
     if (!snapshot.exists()) {
       return null;
     } else {
-      return snapshot.val();
+      return snapshot.val() as Websites;
     }
   } catch (error) {
     console.error("Error reading websites from DB:", error);
