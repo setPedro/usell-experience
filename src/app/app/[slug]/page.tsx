@@ -26,7 +26,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       }
     } 
     router.push("/app");
-  }, [params.slug, websites]);
+  }, [router, params.slug, websites]);
 
   return (
     <ProtectedRoute>
