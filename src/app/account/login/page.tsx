@@ -50,7 +50,7 @@ export default function SignUp() {
               Log in
             </Button>
             <div className="flex justify-center gap-1 text-sm">
-              <p>Haven't an account yet?</p>
+              <p>Haven&lsquo;t an account yet?</p>
               <Link
                 href="/account/signup"
                 className="hover:text-lightpurple hover:underline"

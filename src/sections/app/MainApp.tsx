@@ -7,36 +7,64 @@ import { generateGPTReview, generateImageFromURL } from "@/services/chat";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Websites } from "./WebsiteTypes";
-import { createWebsite, readWebsitesFromDB } from "@/services/db";
+import { createWebsite, readWebsites } from "@/services/db";
+import { formatURL } from "@/utils/formatURL";
+import { useAppDispatch, useAppSelector } from "@/state/store";
+import { selectWebsites } from "@/state/websites/selector";
+import { setWebsites } from "@/state/websites/reducer";
+import { useRouter } from "next/navigation";
+import { Websites } from "@/state/websites/types";
 
-export default function MainApp() {
+export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [websites, setWebsites] = useState<Websites>({});
-  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
-  const [loadingReview, setLoadingReview] = useState<boolean>(false);
-
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const [loadingReview, setLoadingReview] = useState(false);
   const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
 
+  const dispatch = useAppDispatch();
+  const websites = useAppSelector(selectWebsites);
+
+  const router = useRouter();
   const auth = useAuth();
   const user = auth?.user;
 
+  //readwebsites
   useEffect(() => {
-    if (user) {
-      readWebsitesFromDB(user, setWebsites);
+    const fetchWebsites = async () => {
+      if (websites) {
+        if (Object.keys(websites).length === 0 && user) {
+          const _websites: Websites = await readWebsites(user) || {};
+          dispatch(setWebsites(_websites));
+        }
+      }
+    };
+    fetchWebsites();
+  }, [user, dispatch, websites]);
+
+  // set the specific values when user is in the slug
+  useEffect(() => {
+    if (websites) {
+      const keys = Object.keys(websites);
+      if (keys.length === 0 || !websites[webId]) {
+        return;
+      }
+      setImageURL(websites[webId].imageURL);
+      setOpenAIResponse(websites[webId].openAIResponse);
     }
-  }, [user, setWebsites]);
+  }, [user, websites, webId]);
 
   const handlePreview = async () => {
-    setLoadingPreview(true);
     let _imageURL = imageURL;
+    setImageURL("");
+    setLoadingPreview(true);
     if (input && user) {
-      _imageURL = await generateImageFromURL(input); // Await and set imageURL
+      _imageURL = (await generateImageFromURL(input)) as string; // Await and set imageURL
+      console.log("Website image previewed");
       setImageURL(_imageURL);
-      createWebsite(_imageURL, input, user);
     }
     setLoadingPreview(false);
+
     return _imageURL; // Return the updated imageURL
   };
 
@@ -44,11 +72,28 @@ export default function MainApp() {
     setOpenAIResponse("");
     setLoadingReview(true);
     let _imageURL = imageURL;
+    let _openAIResponse: string | undefined = "";
+    let _input = formatURL(input);
     if (!_imageURL) {
       _imageURL = await handlePreview();
     }
-    const _openAIResponse = await generateGPTReview(_imageURL);
+    _openAIResponse = await generateGPTReview(_imageURL);
     setOpenAIResponse(_openAIResponse);
+
+    // create the new Website to pass it to database
+    if (input && user && _openAIResponse) {
+      const _newWebId = await createWebsite(
+        _imageURL,
+        _input,
+        _openAIResponse,
+        user
+      );
+      const _websites: Websites = await readWebsites(user) || {};
+      dispatch(setWebsites(_websites));
+      if (_newWebId) {
+        router.push(`/app/${_newWebId}`);
+      }
+    }
     setLoadingReview(false);
   };
 

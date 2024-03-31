@@ -34,13 +34,9 @@ export async function POST(req: Request) {
       },
     ],
     stream: true,
-    max_tokens: 128,
+    max_tokens: 32,
   });
 
   const stream = OpenAIStream(response);
   return new StreamingTextResponse(stream);
 }
-
-// export async function GET(req: Request) {
-//   return new Response("HOlaa mndan")
-// }

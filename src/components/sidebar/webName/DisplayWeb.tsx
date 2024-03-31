@@ -1,15 +1,21 @@
+import { Web } from "@/state/websites/types";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 interface Props {
-  children: React.ReactNode;
-  onClick?: () => void;
   isSelected?: boolean;
+  website: Web;
 }
 
-const DisplayWeb: React.FC<Props> = ({ children, onClick, isSelected }) => {
+const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
+  dayjs.extend(relativeTime);
+  const timestamp = website.timestamp; // Timestamp from the database
+  const timeSince = dayjs(timestamp).fromNow();
   return (
-    <div
-      onClick={onClick}
+    <Link
+      href={`/app/${website.id}`}
       className={cn(
         "flex flex-col px-3 py-1.5",
         isSelected
@@ -17,8 +23,9 @@ const DisplayWeb: React.FC<Props> = ({ children, onClick, isSelected }) => {
           : "rounded-lg hover:bg-appbackground/15"
       )}
     >
-      {children}
-    </div>
+      <p className="font-bold text-base">{website.input}</p>
+      <p className="text-gray font-medium text-xs">{timeSince}</p>
+    </Link>
   );
 };
 
