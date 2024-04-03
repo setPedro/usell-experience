@@ -3,7 +3,12 @@
 import Button from "@/components/Button";
 import ProtectedRoute from "@/components/protectedRoute";
 import { useAuth } from "@/context/FirebaseContext";
-import { generateGPTReview, generateImageFromURL } from "@/services/chat";
+import {
+  fetchGPTResponse,
+  fetchPerformance,
+  generateGPTReview,
+  generateImageFromURL,
+} from "@/services/chat";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -13,14 +18,18 @@ import { useAppDispatch, useAppSelector } from "@/state/store";
 import { selectWebsites } from "@/state/websites/selector";
 import { setWebsites } from "@/state/websites/reducer";
 import { useRouter } from "next/navigation";
-import { Websites } from "@/state/websites/types";
+import { Websites, OpenAIResponse } from "@/state/websites/types";
+import Image from "next/image";
 
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingReview, setLoadingReview] = useState(false);
-  const [openAIResponse, setOpenAIResponse] = useState<string | undefined>("");
+  const [loadingScores, setLoadingScores] = useState(false);
+  const [openAIResponse, setOpenAIResponse] = useState<
+    OpenAIResponse | undefined
+  >();
 
   const dispatch = useAppDispatch();
   const websites = useAppSelector(selectWebsites);
@@ -29,12 +38,12 @@ export default function MainApp({ webId }: { webId: string }) {
   const auth = useAuth();
   const user = auth?.user;
 
-  //readwebsites
+  // Fetch websites when user logs in
   useEffect(() => {
     const fetchWebsites = async () => {
       if (websites) {
         if (Object.keys(websites).length === 0 && user) {
-          const _websites: Websites = await readWebsites(user) || {};
+          const _websites: Websites = (await readWebsites(user)) || {};
           dispatch(setWebsites(_websites));
         }
       }
@@ -42,7 +51,7 @@ export default function MainApp({ webId }: { webId: string }) {
     fetchWebsites();
   }, [user, dispatch, websites]);
 
-  // set the specific values when user is in the slug
+  // Set values when webId changes
   useEffect(() => {
     if (websites) {
       const keys = Object.keys(websites);
@@ -54,6 +63,7 @@ export default function MainApp({ webId }: { webId: string }) {
     }
   }, [user, websites, webId]);
 
+  // Handle previewing website image
   const handlePreview = async () => {
     let _imageURL = imageURL;
     setImageURL("");
@@ -68,33 +78,58 @@ export default function MainApp({ webId }: { webId: string }) {
     return _imageURL; // Return the updated imageURL
   };
 
+  // Handle reviewing website
   const handleReview = async () => {
-    setOpenAIResponse("");
+    setOpenAIResponse(undefined);
     setLoadingReview(true);
+    setLoadingScores(true);
     let _imageURL = imageURL;
-    let _openAIResponse: string | undefined = "";
+    let _openAIResponse: OpenAIResponse | undefined = undefined;
     let _input = formatURL(input);
     if (!_imageURL) {
       _imageURL = await handlePreview();
     }
-    _openAIResponse = await generateGPTReview(_imageURL);
-    setOpenAIResponse(_openAIResponse);
 
-    // create the new Website to pass it to database
+    const response = await fetchGPTResponse(_imageURL); // fetch response and design score
+    setOpenAIResponse({
+      response: response.response,
+      scores: {
+        design: response.scores.design,
+        performance: undefined,
+        average: undefined,
+      },
+    });
+    if (response) {
+      setLoadingReview(false);
+    }
+
+    const performance = await fetchPerformance(input); // fetch performance score
+    setOpenAIResponse({
+      response: response.response,
+      scores: {
+        design: response.scores.design,
+        performance: performance,
+        average: undefined,
+      },
+    });
+    if (response && performance) {
+      _openAIResponse = await generateGPTReview(response, performance); // merge response and performance
+      setOpenAIResponse(_openAIResponse); // complete openAIResponse
+      setLoadingScores(false);
+    }
     if (input && user && _openAIResponse) {
       const _newWebId = await createWebsite(
         _imageURL,
         _input,
         _openAIResponse,
         user
-      );
-      const _websites: Websites = await readWebsites(user) || {};
+      ); // create the new Website
+      const _websites: Websites = (await readWebsites(user)) || {};
       dispatch(setWebsites(_websites));
       if (_newWebId) {
         router.push(`/app/${_newWebId}`);
       }
     }
-    setLoadingReview(false);
   };
 
   return (
@@ -102,14 +137,20 @@ export default function MainApp({ webId }: { webId: string }) {
       <div className="h-screen w-full flex flex-col lg:items-center lg:flex-row gap-6 p-6">
         <div
           className={cn(
-            "mt-14 lg:mt-0 w-full border rounded-xl text-foreground/60 flex items-center justify-center",
-            imageURL !== "" || null
-              ? "rounded-none lg:max-w-[50%]"
-              : "min-h-[400px] lg:h-full lg:w-1/2"
+            "mt-14 lg:mt-0 w-full lg:w-1/2 min-h-[400px] overflow-y-scroll rounded-xl",
+            imageURL
+              ? "lg:max-h-full"
+              : "lg:h-full flex items-center justify-center border text-foreground/60"
           )}
         >
-          {imageURL !== "" || null ? (
-            <img src={imageURL} alt="website image" />
+          {imageURL ? (
+            <Image
+              src={imageURL}
+              alt="website image"
+              width={1000}
+              height={800}
+              priority
+            />
           ) : (
             <p
               className={cn(
@@ -131,7 +172,7 @@ export default function MainApp({ webId }: { webId: string }) {
             )}
           >
             {openAIResponse ? (
-              <ReactMarkdown>{openAIResponse}</ReactMarkdown>
+              <ReactMarkdown>{openAIResponse.response}</ReactMarkdown>
             ) : (
               <p
                 className={cn(
@@ -141,23 +182,65 @@ export default function MainApp({ webId }: { webId: string }) {
               >
                 {loadingReview
                   ? "Loading..."
-                  : "Yor review will be displayed here"}
+                  : "Your review will be displayed here"}
               </p>
             )}
           </div>
           <div className="pb-6 lg:pb-0 flex flex-col gap-6 w-full bg-appbackground">
             <div className="flex flex-col lg:flex-row gap-2.5">
-              <div className="flex lg:flex-col items-center gap-3 p-3 lg:w-1/3 rounded-md bg-sidebarbackground">
-                <p>Performance score:</p>
-                <p>0</p>
+              <div className="flex lg:flex-col items-center text-sm gap-3 p-3 lg:w-1/3 rounded-md bg-sidebarbackground">
+                <p>Performance</p>
+                <div className="text-2xl">
+                  {openAIResponse?.scores.performance ? (
+                    openAIResponse.scores.performance
+                  ) : (
+                    <p
+                      className={cn(
+                        loadingScores && "animate-bounce text-base"
+                      )}
+                    >
+                      {loadingScores ? "-" : "0"}
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="flex lg:flex-col items-center gap-3 p-3 lg:w-1/3 rounded-md bg-sidebarbackground">
-                <p>Design score:</p>
-                <p>0</p>
+                <p>Design</p>
+                <div className="text-2xl">
+                  {openAIResponse?.scores.design ? (
+                    openAIResponse.scores.design
+                  ) : (
+                    <div className="text-2xl">
+                      {openAIResponse?.scores.design ? (
+                        openAIResponse.scores.design
+                      ) : (
+                        <p
+                          className={cn(
+                            loadingReview && "animate-bounce text-base"
+                          )}
+                        >
+                          {loadingReview ? "-" : "0"}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex lg:flex-col items-center gap-3 p-3 lg:w-1/3 rounded-md bg-sidebarbackground">
-                <p>Avg. score:</p>
-                <p>0</p>
+                <p>Average</p>
+                <div className="text-2xl">
+                  {openAIResponse?.scores.average ? (
+                    openAIResponse.scores.average
+                  ) : (
+                    <p
+                      className={cn(
+                        loadingScores && "animate-bounce text-base"
+                      )}
+                    >
+                      {loadingScores ? "-" : "0"}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-3 lg:w-full">
@@ -167,16 +250,13 @@ export default function MainApp({ webId }: { webId: string }) {
                 onChange={(e) => setInput(e.target.value)}
                 className="border rounded text-foreground/50 hover:text-foreground bg-transparent px-3 py-2"
               />
-              <div className="flex flex-col lg:flex-row gap-6 w-full lg:justify-between">
-                <Button bg="whiteapp">Browse Prompts</Button>
-                <div className="flex flex-col lg:flex-row gap-2.5">
-                  <Button bg="whiteapp" onClick={handlePreview}>
-                    Preview
-                  </Button>
-                  <Button bg="gradientapp" onClick={handleReview}>
-                    Review
-                  </Button>
-                </div>
+              <div className="flex flex-col lg:flex-row gap-2.5 w-full lg:justify-end">
+                <Button bg="whiteapp" onClick={handlePreview}>
+                  Preview
+                </Button>
+                <Button bg="gradientapp" onClick={handleReview}>
+                  Review
+                </Button>
               </div>
             </div>
           </div>

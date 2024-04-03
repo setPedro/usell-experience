@@ -6,26 +6,25 @@ import MainApp from "@/sections/app/MainApp";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppSelector } from "@/state/store";
-import { selectWebsites } from "@/state/websites/selector";
+import {
+  selectIsWebsitesLoading,
+  selectWebsites,
+} from "@/state/websites/selector";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const websites = useAppSelector(selectWebsites);
+  const isWebsitesLoading = useAppSelector(selectIsWebsitesLoading);
 
   useEffect(() => {
-    if (websites) {
+    if (!isWebsitesLoading) {
       const keys = Object.keys(websites);
       const match = keys.filter((key) => key === params.slug);
 
-      if (keys.length === 0) {
-        return;
+      if (match.length === 0) {
+        router.push("/app");
       }
-
-      if (match.length > 0) {
-        return;
-      }
-    } 
-    router.push("/app");
+    }
   }, [router, params.slug, websites]);
 
   return (
