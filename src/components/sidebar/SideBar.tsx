@@ -11,8 +11,8 @@ export default function SideBar() {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
-    <div className="h-fit fixed lg:relative lg:h-screen border-b  lg:border-0 w-full lg:min-w-64 lg:max-w-64 flex flex-col items-center justify-between p-4 lg:p-6 bg-sidebarbackground">
-      <div className="h-screen hidden lg:flex flex-col items-center justify-between fixed top-0 p-6 w-64">
+    <div className="h-fit fixed lg:relative lg:h-screen border-b  lg:border-0 w-full lg:min-w-64 lg:max-w-64 flex flex-col items-center justify-between lg:p-6">
+      <div className="h-screen hidden lg:flex flex-col items-center justify-between fixed top-0 p-6 w-64 bg-sidebarbackground">
         <SideBarModal isSelected={isSelected} />
       </div>
 
@@ -27,7 +27,7 @@ export default function SideBar() {
         </div>
       )}
       {/* lg:hidden sidebar */}
-      <div className="w-full flex justify-between items-center lg:hidden">
+      <div className="w-full flex justify-between items-center lg:hidden bg-sidebarbackground p-4">
         <Link href="/">
           <WhiteLogo />
         </Link>

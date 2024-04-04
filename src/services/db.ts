@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { Web, Websites } from "@/state/websites/types";
+import { Web, Websites, OpenAIResponse } from "@/state/websites/types";
 import { generateId } from "@/utils/generateId";
 import { User } from "firebase/auth";
 import { child, get, ref, set } from "firebase/database";
@@ -8,7 +8,7 @@ import { child, get, ref, set } from "firebase/database";
 export const createWebsite = async (
   imageURL: string,
   input: string,
-  openAIResponse: string,
+  openAIResponse: OpenAIResponse,
   user: User
 ) => {
   if (input && imageURL !== null && user) {
