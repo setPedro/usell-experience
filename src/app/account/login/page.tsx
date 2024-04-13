@@ -43,6 +43,7 @@ export default function SignUp() {
               <input
                 className="text-custom-gray w-full p-3 border border-gray-300 rounded focus:outline-none font-semibold"
                 onChange={(e) => setPassword(e.target.value)}
+                type="password"
                 id="password"
               />
             </div>
