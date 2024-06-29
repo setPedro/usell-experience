@@ -82,15 +82,14 @@ export async function fetchGPTResponse(imageURL: string | undefined) {
 
 export async function fetchPerformance(input: string) {
   try {
-    const res = await fetch(`/api/performance?url=${input}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const performanceText = await res.text();
-    const performance = Math.round(parseFloat(performanceText) * 100);
-    return performance;
+
+    const response = await fetch(
+      `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${input}`
+    );
+    const data = await response.json();
+    const score = await data.lighthouseResult?.categories?.performance?.score;
+    const performance = Math.round(parseFloat(score) * 100);
+    return performance
   } catch (error) {
     console.error("Error fetching performance data:", error);
     throw error;
