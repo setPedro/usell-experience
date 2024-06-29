@@ -1,4 +1,6 @@
-export const USER_PROMPT = "How would you improve this UI?";
+export const USER_PROMPT = `How would you improve this UI? Say specific aspects to the user to take action. 
+For example: "change the CTA text to ˝get the ebook˝" or "change the title font size to 48px Roboto" or something like that.
+`;
 
 export const SYSTEM_PROMPT = `
 You are a professional web designer, 

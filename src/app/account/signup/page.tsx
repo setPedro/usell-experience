@@ -18,7 +18,7 @@ export default function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      if (email && password && password.length > 8) {
+      if (email && password && password.length > 7) {
         auth?.signUp(email, password, userName);
       } else {
         setEmptyFields(true);
