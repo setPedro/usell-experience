@@ -1,6 +1,8 @@
 export const USER_PROMPT = `How would you improve this UI? Say specific aspects to the user to take action. 
 For example: "change the CTA text to ˝get the ebook˝" or "change the title font size to 48px Roboto" or something like that.
-`;
+For example: "change the CTA text to ˝get the ebook˝" or "change the title font size to 48px Roboto" or something like that. 
+You have to give me TWO DIFFERENT pathways, as if it were an A/B test.
+` 
 
 export const SYSTEM_PROMPT = `
 You are a professional web designer, 
