@@ -137,7 +137,7 @@ export default function MainApp({ webId }: { webId: string }) {
       <div className="h-screen w-full flex flex-col lg:items-center lg:flex-row gap-6 p-6">
         <div
           className={cn(
-            "mt-14 lg:mt-0 w-full lg:w-1/2 min-h-[400px] overflow-y-scroll rounded-xl",
+            "no-scrollbar mt-14 lg:mt-0 w-full lg:w-1/2 min-h-[400px] overflow-y-scroll rounded-xl",
             imageURL
               ? "lg:max-h-full"
               : "lg:h-full flex items-center justify-center border text-foreground/60"
@@ -147,9 +147,10 @@ export default function MainApp({ webId }: { webId: string }) {
             <Image
               src={imageURL}
               alt="website image"
-              width={1000}
-              height={800}
+              width={512}
+              height={512}
               priority
+              className="w-full h-auto"
             />
           ) : (
             <p
@@ -167,7 +168,7 @@ export default function MainApp({ webId }: { webId: string }) {
         <div className="flex flex-col gap-6 w-full lg:w-1/2 h-full">
           <div
             className={cn(
-              "flex flex-col overflow-y-auto w-full min-h-[400px] lg:h-full border rounded-xl text-foreground/60",
+              "no-scrollbar flex flex-col overflow-y-auto w-full min-h-[400px] lg:h-full border rounded-xl text-foreground/60",
               openAIResponse ? "p-4 gap-2" : "justify-center items-center"
             )}
           >

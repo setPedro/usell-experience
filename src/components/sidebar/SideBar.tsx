@@ -35,7 +35,6 @@ export default function SideBar() {
           className="hover:opacity-60"
           onClick={() => setSideBarModalIsOpen(!sideBarModalIsOpen)}
         >
-          <WhiteBurgerMenu />
         </div>
       </div>
     </div>
