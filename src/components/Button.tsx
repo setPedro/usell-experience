@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 interface Props {
   children: React.ReactNode;
   onClick?: () => void;
-  bg: "white" | "gradient" | "nav" | "whiteapp" | "gradientapp" | "none";
+  bg: "white" | "gradient" | "whiteapp" | "gradientapp" | "none";
   className?: string
 }
 
@@ -14,7 +14,6 @@ export default function Button({ children, onClick, bg, className }: Props) {
     colors: {
       white: "bg-foreground text-background",
       gradient: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
-      nav: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
       whiteapp: "text-background bg-foreground",
       gradientapp: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
       none: "",

@@ -36,10 +36,10 @@ export default function NavBar() {
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-              <Button bg="nav">About us</Button>
-              <Button bg="nav">How to use</Button>
-              <Button bg="nav">Our solution</Button>
-              <Button bg="nav">Who we help</Button>
+              <Button bg="none">About us</Button>
+              <Button bg="none">How to use</Button>
+              <Button bg="none">Our solution</Button>
+              <Button bg="none">Who we help</Button>
               <Button bg="gradient">Contact us</Button>
             </div>
 

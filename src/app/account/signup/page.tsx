@@ -80,7 +80,7 @@ export default function SignUp() {
               <Button bg="gradient" onClick={handleSignUp}>
                 Sign up
               </Button>
-              <Button bg="google" onClick={handleSignUpWithGoogle}>
+              <Button bg="none" onClick={handleSignUpWithGoogle}>
                 <GoogleLogo />
                 <p>Sign up with google</p>
               </Button>
