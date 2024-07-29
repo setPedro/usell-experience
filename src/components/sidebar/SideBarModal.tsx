@@ -1,23 +1,26 @@
 "use client";
 
-import WhiteLogo from "@/components/icons/WhiteLogo";
+import WhiteLogo from "@/components/Icons/WhiteLogo";
 import Link from "next/link";
-import DisplayWeb from "./webName/DisplayWeb";
+import SidebarModalItem from "./SidebarModaltem";
 import { useAuth } from "@/context/FirebaseContext";
 import { useAppSelector } from "@/state/store";
 import { selectWebsites } from "@/state/websites/selector";
 import Image from "next/image"
+import { useState } from "react";
+import ProfileModal from "./ProfileModal";
 
 type Props = {
   isSelected: boolean;
 };
 
-export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
+export default function SidebarModal({ isSelected }: Props) {
   const auth = useAuth();
   const user = auth?.user;
   const websites = useAppSelector(selectWebsites);
+  
+  const [profileModal, setProfileModal] = useState(false)
 
-  console.log(user)
   return (
     <>
       <div className="overflow-y-auto flex flex-col w-full items-center gap-6">
@@ -31,7 +34,7 @@ export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
         <div className="flex flex-col gap-3 w-full">
           {websites
             ? Object.values(websites).map((website, index) => (
-                <DisplayWeb
+                <SidebarModalItem
                   key={index}
                   website={website}
                   isSelected={isSelected}
@@ -40,10 +43,11 @@ export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
             : ""}
         </div>
       </div>
-      <div className="flex items-center gap-2 px-3 py-1.5">
+      <div className="flex items-center gap-2 px-3 py-1.5" onClick={() => setProfileModal(!profileModal)}>
         <Image src={user ? (user.photoURL || "/defaultPicture.png") : ""} className="rounded-md" alt="pfp" width={24} height={24}/>
         <p>{user && (user.displayName || user.email)}</p>
       </div>
+      { profileModal && <ProfileModal onClose={() => setProfileModal(!profileModal)}/>}
     </>
   );
 };

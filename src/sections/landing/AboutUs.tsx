@@ -1,4 +1,4 @@
-import Idea from "@/components/icons/Idea";
+import Idea from "@/components/Icons/Idea";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
 

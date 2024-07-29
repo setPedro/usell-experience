@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import Logo from "@/components/icons/Logo";
+import Logo from "@/components/Icons/Logo";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
 

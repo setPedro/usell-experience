@@ -1,6 +1,6 @@
 "use client";
 
-import SideBar from "@/components/sidebar/SideBar";
+import SideBar from "@/components/Sidebar";
 import ProtectedRoute from "@/components/protectedRoute";
 import MainApp from "@/sections/app/MainApp";
 import { useRouter } from "next/navigation";

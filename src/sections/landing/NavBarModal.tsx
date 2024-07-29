@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import WhiteLogo from "@/components/icons/WhiteLogo";
+import WhiteLogo from "@/components/Icons/WhiteLogo";
 
 type Props = {
   onClose: () => void;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/FirebaseContext";
 import UnprotectedRoute from "@/components/unprotectedRoute";
-import GoogleLogo from "@/components/icons/GoogleLogo";
+import GoogleLogo from "@/components/Icons/GoogleLogo";
 import Button from "@/components/Button";
 
 export default function SignUp() {

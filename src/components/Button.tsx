@@ -3,35 +3,38 @@ import { cn } from "@/utils/cn";
 interface Props {
   children: React.ReactNode;
   onClick?: () => void;
-  bg?: "white" | "gradient" | "nav" | "google" | "whiteapp" | "gradientapp";
+  bg: "white" | "gradient" | "nav" | "whiteapp" | "gradientapp" | "none";
+  className?: string
 }
 
-const Button: React.FC<Props> = ({ children, onClick, bg }) => {
+export default function Button({ children, onClick, bg, className }: Props) {
+
+  const classes = {
+    common: "flex items-center justify-center rounded-lg font-bold hover:opacity-70 transition duration-400 font-medium",
+    colors: {
+      white: "bg-foreground text-background",
+      gradient: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
+      nav: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
+      whiteapp: "text-background bg-foreground",
+      gradientapp: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",
+      none: "",
+    },
+    sizes: {
+      md: "px-4 py-2"
+    }
+  }
+
   return (
     <div
       onClick={onClick}
       className={cn(
-        "flex items-center rounded-lg font-bold",
-        bg === "white"
-          ? "px-4 py-2 text-background bg-foreground"
-          : bg === "gradient"
-          ? "px-4 py-2 justify-center text-foreground bg-gradient-to-r from-lightpurple to-darkpurple"
-          : bg === "nav"
-          ? "px-4 py-2 justify-center hover:bg-skyblue"
-          : bg === "google"
-          ? "px-4 py-2 border border-background gap-4 hover:opacity-60"
-          : bg === "whiteapp"
-          ? "px-3 py-2.5 text-background hover:bg-foreground/50 font-medium bg-foreground"
-          : bg === "gradientapp"
-          ? "px-3 py-2.5 text-foreground hover:opacity-50 font-medium bg-gradient-to-r from-lightpurple to-darkpurple"
-          : bg === undefined
-          ? "hover:bg-skyblue justify-start pl-2 py-2 gap-4"
-          : ""
+          classes.common,
+          classes.colors[bg],
+          classes.sizes["md"],
+          className
       )}
     >
       {children}
     </div>
   );
 };
-
-export default Button;

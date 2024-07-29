@@ -1,14 +1,14 @@
 "use client";
 
 import Button from "@/components/Button";
-import Logo from "../../components/icons/Logo";
+import Logo from "../../components/Icons/Logo";
 import { useState } from "react";
-import BurgerMenu from "@/components/icons/BurgerMenu";
+import BurgerMenu from "@/components/Icons/BurgerMenu";
 import { NavBarModal } from "./NavBarModal";
 import { usePathname } from "next/navigation";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-import WhiteLogo from "@/components/icons/WhiteLogo";
+import WhiteLogo from "@/components/Icons/WhiteLogo";
 
 export default function NavBar() {
   const [navBarModalIsOpen, setNavBarModalIsOpen] = useState(false);
@@ -40,7 +40,7 @@ export default function NavBar() {
               <Button bg="nav">How to use</Button>
               <Button bg="nav">Our solution</Button>
               <Button bg="nav">Who we help</Button>
-              <Button bg={"gradient"}>Contact us</Button>
+              <Button bg="gradient">Contact us</Button>
             </div>
 
             <div
