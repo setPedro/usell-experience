@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
-import Logo from "@/components/icons/Logo";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
+import Image from "next/image";
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -13,7 +13,7 @@ export default function LastSection() {
     <div className="w-full flex flex-col gap-9 lg:gap-[72px] px-6 pt-8 sm:px-12 sm:pt-12 lg:px-[72px] lg:pt-[72px] bg-background text-white">
       <div className="flex flex-col-reverse md:flex-row items-center gap-12">
         <div className="min-w-[300px] lg:min-w-[552px]">
-          <img
+          <Image
             src="lightbulb.png"
             alt="landing img"
             className="w-full h-full"
@@ -67,13 +67,13 @@ export default function LastSection() {
         </div>
 
         <div className="min-w-[300px] lg:min-w-[552px]">
-          <img src="earth.png" alt="landing img" className="w-full h-full" />
+          <Image src="earth.png" alt="landing img" className="w-full h-full" />
         </div>
       </div>
 
       <div className="flex flex-col-reverse md:flex-row items-center gap-12">
         <div className="min-w-[300px] lg:min-w-[552px]">
-          <img src="highFive.png" alt="landing img" className="w-full h-full" />
+          <Image src="highFive.png" alt="landing img" className="w-full h-full" />
         </div>
 
         <div className="flex flex-col gap-8">
@@ -110,7 +110,7 @@ export default function LastSection() {
             <p className="hover:underline w-fit">Who we help</p>
           </div>
           <div className="flex items-center gap-[11px]">
-            <Logo />
+            <Image src={"/icons/logo.svg"} width={24} height={24} alt="logo"/>
             <p className="font-semibold text-sm">uSell Experience</p>
           </div>
         </div>

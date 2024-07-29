@@ -1,6 +1,6 @@
-import Idea from "@/components/icons/Idea";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
+import Image from "next/image";
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -19,7 +19,7 @@ export default function TopSection() {
       </div>
       <div className="flex flex-col lg:flex-row py-3 lg:py-9 border-2 rounded-lg border-background">
         <div className="flex flex-col lg:w-1/3 items-center lg:items-start px-4 lg:px-9 pb-3 lg:pb-0 gap-9 border-b-2 lg:border-b-0 lg:border-r-2 border-background">
-          <Idea />
+          <Image src={"/icons/idea.svg"} width={24} height={24} alt="idea"/>
           <div className="flex flex-col gap-3">
             <div
               className={cn(
@@ -41,7 +41,7 @@ export default function TopSection() {
           </div>
         </div>
         <div className="flex flex-col lg:w-1/3 items-center lg:items-start px-4 lg:px-9 py-3 lg:py-0 gap-9 border-b-2 lg:border-b-0 lg:border-r-2 border-background">
-          <Idea />
+          <Image src={"/icons/idea.svg"} width={24} height={24} alt="idea"/>
           <div className="flex flex-col gap-3">
             <div
               className={cn(
@@ -65,7 +65,7 @@ export default function TopSection() {
           </div>
         </div>
         <div className="flex flex-col lg:w-1/3 items-center lg:items-start px-4 lg:px-9 pt-3 lg:pt-0 gap-9">
-          <Idea />
+          <Image src={"/icons/idea.svg"} width={24} height={24} alt="idea"/>
           <div className="flex flex-col gap-3">
             <div
               className={cn(

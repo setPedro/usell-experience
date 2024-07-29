@@ -9,7 +9,7 @@ interface Props {
   website: Web;
 }
 
-const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
+export default function SidebarModalItem({ isSelected, website }: Props) {
   dayjs.extend(relativeTime);
   const timestamp = website.timestamp; // Timestamp from the database
   const timeSince = dayjs(timestamp).fromNow();
@@ -17,7 +17,7 @@ const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
     <Link
       href={`/app/${website.id}`}
       className={cn(
-        "flex flex-col px-3 py-1.5",
+        "flex flex-col px-3 py-1.5 overflow-hidden",
         isSelected
           ? "rounded-lg bg-appbackground/50"
           : "rounded-lg hover:bg-appbackground/15"
@@ -28,5 +28,3 @@ const DisplayWeb: React.FC<Props> = ({ isSelected, website }) => {
     </Link>
   );
 };
-
-export default DisplayWeb;

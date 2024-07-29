@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import WhiteLogo from "@/components/icons/WhiteLogo";
+import Image from "next/image";
 
 type Props = {
   onClose: () => void;
@@ -18,13 +18,13 @@ export const NavBarModal: React.FC<Props> = ({ onClose }) => {
     >
       <div className="h-full flex flex-col gap-6 p-6 rounded-r bg-darkbackground text-foreground">
         <p className="flex justify-center border-b pb-4">
-          <WhiteLogo />
+        <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
         </p>
         <div className="flex flex-col gap-6 h-full">
-          <Button>About us</Button>
-          <Button>How to use</Button>
-          <Button>Our solution</Button>
-          <Button>Who we help</Button>
+          <Button bg="none">About us</Button>
+          <Button bg="none">How to use</Button>
+          <Button bg="none">Our solution</Button>
+          <Button bg="none">Who we help</Button>
           <div className="mt-auto">
             <Button bg={"gradient"}>Contact us</Button>
           </div>

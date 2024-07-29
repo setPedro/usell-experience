@@ -1,14 +1,12 @@
 "use client";
 
 import Button from "@/components/Button";
-import Logo from "../../components/icons/Logo";
 import { useState } from "react";
-import BurgerMenu from "@/components/icons/BurgerMenu";
 import { NavBarModal } from "./NavBarModal";
 import { usePathname } from "next/navigation";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-import WhiteLogo from "@/components/icons/WhiteLogo";
+import Image from "next/image";
 
 export default function NavBar() {
   const [navBarModalIsOpen, setNavBarModalIsOpen] = useState(false);
@@ -16,7 +14,7 @@ export default function NavBar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 py-6 px-2 sm:px-4 md:px-6 lg:px-9",
+        "fixed top-0 left-0 py-6 px-2 sm:px-4 md:px-6 lg:px-9 z-50",
         pathname === "/" && "w-full"
       )}
     >
@@ -31,28 +29,28 @@ export default function NavBar() {
         {pathname === "/" ? (
           <>
             <div className="flex items-center gap-3">
-              <Logo />
+              <Image src={"/icons/logo.svg"} width={24} height={24} alt="logo"/>
               <p className="font-semibold">uSell Experience</p>
             </div>
 
             <div className="hidden lg:flex items-center gap-2">
-              <Button bg="nav">About us</Button>
-              <Button bg="nav">How to use</Button>
-              <Button bg="nav">Our solution</Button>
-              <Button bg="nav">Who we help</Button>
-              <Button bg={"gradient"}>Contact us</Button>
+              <Button bg="none">About us</Button>
+              <Button bg="none">How to use</Button>
+              <Button bg="none">Our solution</Button>
+              <Button bg="none">Who we help</Button>
+              <Button bg="gradient">Contact us</Button>
             </div>
 
             <div
               className="py-2 hover:opacity-60 block lg:hidden"
               onClick={() => setNavBarModalIsOpen(!navBarModalIsOpen)}
             >
-              <BurgerMenu />
+              <Image src={"/icons/burgerMenu.svg"} width={24} height={24} alt="menu"/>
             </div>
           </>
         ) : (
           <Link href="/" className="flex items-center gap-3 h-10">
-            <WhiteLogo />
+            <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
             <p className="font-semibold text-foreground">uSell Experience</p>
           </Link>
         )}

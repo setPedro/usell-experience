@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAuth } from "@/context/FirebaseContext";
 import UnprotectedRoute from "@/components/unprotectedRoute";
-import GoogleLogo from "@/components/icons/GoogleLogo";
 import Button from "@/components/Button";
+import Image from "next/image";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -80,8 +80,8 @@ export default function SignUp() {
               <Button bg="gradient" onClick={handleSignUp}>
                 Sign up
               </Button>
-              <Button bg="google" onClick={handleSignUpWithGoogle}>
-                <GoogleLogo />
+              <Button bg="none" onClick={handleSignUpWithGoogle}>
+                <Image src={"/icons/googleLogo.svg"} width={24} height={24} alt="google logo"/>
                 <p>Sign up with google</p>
               </Button>
             </div>
