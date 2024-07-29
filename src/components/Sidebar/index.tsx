@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import SidebarModal from "@/components/TempSidebar/SideBarModal";
+import SidebarModal from "@/components/Sidebar/SideBarModal";
 import Image from "next/image";
 
 export default function SideBar() {

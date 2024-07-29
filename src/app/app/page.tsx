@@ -1,4 +1,4 @@
-import SideBar from "@/components/TempSidebar";
+import SideBar from "@/components/Sidebar";
 import ProtectedRoute from "@/components/protectedRoute";
 import MainApp from "@/sections/app/MainApp";
 import { generateId } from "@/utils/generateId";
