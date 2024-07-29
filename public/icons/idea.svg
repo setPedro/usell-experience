@@ -1,5 +1,3 @@
-export default function Idea() {
-  return (
     <svg
       width="48"
       height="48"
@@ -52,5 +50,3 @@ export default function Idea() {
         fill="#FC00FF"
       />
     </svg>
-  );
-}

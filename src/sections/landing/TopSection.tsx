@@ -5,6 +5,7 @@ import { useAuth } from "@/context/FirebaseContext";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image"
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -39,7 +40,7 @@ export default function TopSection() {
       </div>
 
       <div className="w-full hidden xl:block">
-        <img src="usellLandingImg.png" alt="landing img" />
+        <Image src="usellLandingImg.png" alt="landing img" />
       </div>
     </div>
   );

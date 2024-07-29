@@ -1,9 +1,9 @@
 "use client";
 
-import WhiteLogo from "../Icons/WhiteLogo";
 import Link from "next/link";
 import { useState } from "react";
 import SidebarModal from "./SidebarModal";
+import Image from "next/image";
 
 export default function SideBar() {
   const [sideBarModalIsOpen, setSideBarModalIsOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function SideBar() {
       {/* lg:hidden sidebar */}
       <div className="w-full flex justify-between items-center lg:hidden bg-sidebarbackground p-4">
         <Link href="/">
-          <WhiteLogo />
+          <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
         </Link>
         <div
           className="hover:opacity-60"

@@ -1,6 +1,5 @@
 "use client";
 
-import WhiteLogo from "@/components/Icons/WhiteLogo";
 import Link from "next/link";
 import SidebarModalItem from "./SidebarModaltem";
 import { useAuth } from "@/context/FirebaseContext";
@@ -25,7 +24,7 @@ export default function SidebarModal({ isSelected }: Props) {
     <>
       <div className="overflow-y-auto flex flex-col w-full items-center gap-6">
         <Link href="/" className=" flex items-center gap-2 w-min">
-          <WhiteLogo />
+          <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
           <p className="font-semibold text-sm">uSell Experience</p>
         </Link>
         <Link href="/app" className="w-full text-center px-4 py-2 rounded-md font-bold bg-foreground text-background">

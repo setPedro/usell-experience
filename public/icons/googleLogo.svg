@@ -1,5 +1,3 @@
-export default function GoogleLogo() {
-    return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
@@ -24,5 +22,3 @@ export default function GoogleLogo() {
         />
         <path d="M1 1h22v22H1z" fill="none" />
       </svg>
-    );
-  }
