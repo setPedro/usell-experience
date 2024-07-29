@@ -16,7 +16,7 @@ export default function NavBar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 py-6 px-2 sm:px-4 md:px-6 lg:px-9",
+        "fixed top-0 left-0 py-6 px-2 sm:px-4 md:px-6 lg:px-9 z-50",
         pathname === "/" && "w-full"
       )}
     >

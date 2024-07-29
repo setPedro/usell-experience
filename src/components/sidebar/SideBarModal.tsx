@@ -41,7 +41,7 @@ export const SideBarModal: React.FC<Props> = ({ isSelected }) => {
         </div>
       </div>
       <div className="flex items-center gap-2 px-3 py-1.5">
-        <Image src={user && (user.photoURL || "/defaultPicture.png")} className="rounded-md" alt="pfp" width={24} height={24}/>
+        <Image src={user ? (user.photoURL || "/defaultPicture.png") : ""} className="rounded-md" alt="pfp" width={24} height={24}/>
         <p>{user && (user.displayName || user.email)}</p>
       </div>
     </>
