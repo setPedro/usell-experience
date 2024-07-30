@@ -10,7 +10,7 @@ interface Props {
 export default function Button({ children, onClick, bg, className }: Props) {
 
   const classes = {
-    common: "flex items-center justify-center rounded-lg font-bold hover:opacity-70 transition duration-400 font-medium",
+    common: "flex gap-2 items-center justify-center rounded-lg font-bold hover:opacity-70 transition duration-400 font-medium",
     colors: {
       white: "bg-foreground text-background",
       gradient: "text-foreground bg-gradient-to-r from-lightpurple to-darkpurple",

@@ -1,16 +1,15 @@
 import { OpenAIResponse, Scores } from "@/state/websites/types";
+
 // convertapi
 export async function generateImageFromURL(input: string) {
   try {
-    const res = await fetch("/api/convertapi", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ input: input }),
-    });
-    const data = await res.text();
-    return data;
+    const res = await fetch(
+      `https://v2.convertapi.com/convert/web/to/png?Secret=${process.env.NEXT_PUBLIC_CONVERT_API_KEY}&Url=${input}&StoreFile=true`
+    );
+    const data = await res.json();
+    const image_url = data.Files[0].Url;
+
+    return image_url
   } catch (error) {
     console.error("Error fetching data:", error);
   }

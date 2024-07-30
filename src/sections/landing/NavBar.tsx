@@ -28,17 +28,27 @@ export default function NavBar() {
       >
         {pathname === "/" ? (
           <>
-            <div className="flex items-center gap-3">
+            <Link href={"/"} className="flex items-center gap-3">
               <Image src={"/icons/logo.svg"} width={24} height={24} alt="logo"/>
               <p className="font-semibold">uSell Experience</p>
-            </div>
+            </Link>
 
             <div className="hidden lg:flex items-center gap-2">
-              <Button bg="none">About us</Button>
-              <Button bg="none">How to use</Button>
-              <Button bg="none">Our solution</Button>
-              <Button bg="none">Who we help</Button>
-              <Button bg="gradient">Contact us</Button>
+              <Link href={"/#about-us"}>
+                <Button bg="none">About us</Button>
+              </Link>
+              <Link href={"/#how-to-use"}>
+                <Button bg="none">How to use</Button>
+              </Link>
+              <Link href={"/#our-solution"}>
+                <Button bg="none">Our solution</Button>
+              </Link>
+              <Link href={"/#our-solution"}>
+                <Button bg="none">Who we help</Button>
+              </Link>
+              <Link href={"/#contact"}>
+                <Button bg="gradient">Contact us</Button>
+              </Link>
             </div>
 
             <div

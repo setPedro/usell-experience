@@ -17,7 +17,7 @@ export default function TopSection() {
   const user = auth?.user
 
   return (
-    <div className="w-full h-screen px-9 flex items-center gap-[72px] bg-background">
+    <div className="w-full h-screen px-9 flex items-center gap-[72px] bg-background justify-center">
       <div className="flex flex-col gap-12">
         <div className="flex flex-col gap-6 md:w-min">
           <div className={cn("text-5xl md:w-max", TiroTelugu.className)}>
@@ -32,15 +32,18 @@ export default function TopSection() {
           </div>
         </div>
         <div className="flex gap-6">
-          <Button bg={"white"}>Learn more</Button>
-          <Button bg={"gradient"}>
-            <Link href="/account/signup">{!user ? "Try it out": "Go to the app"}</Link>
-          </Button>
+          <Link href="/#about-us">
+            <Button bg={"white"}>Learn more</Button>
+          </Link>
+          <Link href="/account/signup">
+            <Button bg={"gradient"}>
+              {!user ? "Try it out": "Go to the app"}
+            </Button>
+          </Link>
         </div>
       </div>
-
-      <div className="w-full hidden xl:block">
-        <Image src="usellLandingImg.png" alt="landing img" />
+      <div className="w-full hidden xl:block max-w-xl">
+        <Image src="/usellLandingImg.png" alt="landing img" width={512} height={512} className="w-full"/>
       </div>
     </div>
   );
