@@ -1,6 +1,7 @@
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -59,8 +60,8 @@ export default function TopSection() {
             <div>
               We also offer a variety of services such as web design, logo
               design, web development, SEO, content writing and copywriting.
-              Interested in any of them?
-              <p className="text-pink">Contact us here</p>
+              Interested in any of them?{" "}
+              <Link href={"/#contact"} className="text-pink cursor-pointer">Contact us here</Link>
             </div>
           </div>
         </div>

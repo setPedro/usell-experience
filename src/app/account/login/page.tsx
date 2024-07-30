@@ -6,6 +6,7 @@ import Link from "next/link";
 import UnprotectedRoute from "@/components/unprotectedRoute";
 import NavBar from "@/sections/landing/NavBar";
 import Button from "@/components/Button";
+import Image from "next/image";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -20,15 +21,22 @@ export default function SignUp() {
     }
   };
 
+  const handleSignUpWithGoogle = () => {
+    auth.googleSignIn();
+  };
+
   return (
     <UnprotectedRoute>
       <div className="flex flex-col items-center justify-center h-screen bg-darkbackground">
         <NavBar />
-        <div className="px-4 sm:px-8 py-4 rounded-lg bg-foreground text-darkbackground">
-          <p className="text-3xl sm:text-4xl text-left font-bold mb-4">
+        <form method="post" onSubmit={(e) => {
+          e.preventDefault();
+          handleSignIn();
+        }} className="px-4 sm:px-8 py-6 rounded-lg bg-foreground text-darkbackground w-96">
+          <p className="text-3xl sm:text-4xl font-bold mb-6 text-center">
             Log in
           </p>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             <div>
               <div className="text-sm font-semibold mb-2">Email address</div>
               <input
@@ -47,8 +55,14 @@ export default function SignUp() {
                 id="password"
               />
             </div>
-            <Button bg="gradient" onClick={handleSignIn}>
-              Log in
+            <button type="submit">
+              <Button bg="gradient">
+                Log in
+              </Button>
+            </button>
+            <Button bg="none" onClick={handleSignUpWithGoogle}>
+                <Image src={"/icons/googleLogo.svg"} width={24} height={24} alt="google logo"/>
+                <p>Log in with Google</p>
             </Button>
             <div className="flex justify-center gap-1 text-sm">
               <p>Haven&lsquo;t an account yet?</p>
@@ -60,7 +74,7 @@ export default function SignUp() {
               </Link>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </UnprotectedRoute>
   );
