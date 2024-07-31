@@ -24,12 +24,24 @@ import Image from "next/image";
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [lastReviewed, setLastReviewed] = useState("")
+
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingReview, setLoadingReview] = useState(false);
   const [loadingScores, setLoadingScores] = useState(false);
+
   const [openAIResponse, setOpenAIResponse] = useState<
     OpenAIResponse | undefined
   >();
+
+  const average = (() => {
+    if (openAIResponse?.scores.design && openAIResponse?.scores.performance) {
+      return (
+        (openAIResponse.scores.design + openAIResponse.scores.performance) / 2
+      );
+    }
+    return undefined;
+  })()
 
   const dispatch = useAppDispatch();
   const websites = useAppSelector(selectWebsites);
@@ -60,75 +72,70 @@ export default function MainApp({ webId }: { webId: string }) {
       }
       setImageURL(websites[webId].imageURL);
       setOpenAIResponse(websites[webId].openAIResponse);
+      setLastReviewed(websites[webId].input);
     }
-  }, [user, websites, webId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, JSON.stringify(websites), webId]);
 
-  // Handle previewing website image
   const handlePreview = async () => {
     let _imageURL = imageURL;
     setImageURL("");
     setLoadingPreview(true);
     if (input && user) {
-      _imageURL = (await generateImageFromURL(input)) as string; // Await and set imageURL
-      console.log("Website image previewed");
+      _imageURL = (await generateImageFromURL(input)) as string;
       setImageURL(_imageURL);
     }
     setLoadingPreview(false);
 
-    return _imageURL; // Return the updated imageURL
+    return _imageURL;
   };
 
-  // Handle reviewing website
   const handleReview = async () => {
-    setOpenAIResponse(undefined);
+    if (!user) {
+      return
+    }
+
+    const { scores: prevScores } = openAIResponse || {};
+    setOpenAIResponse(undefined)
     setLoadingReview(true);
     setLoadingScores(true);
+
     let _imageURL = imageURL;
-    let _openAIResponse: OpenAIResponse | undefined = undefined;
     let _input = formatURL(input);
-    if (!_imageURL) {
+    let _openAIResponse: OpenAIResponse | undefined
+    const isNewUrl = lastReviewed !== _input;
+    
+    if (isNewUrl) {
       _imageURL = await handlePreview();
     }
 
-    const response = await fetchGPTResponse(_imageURL); // fetch response and design score
-    setOpenAIResponse({
-      response: response.response,
+    const { response, scores } = await fetchGPTResponse(_imageURL);
+    _openAIResponse = {
+      response,
       scores: {
-        design: response.scores.design,
-        performance: undefined,
-        average: undefined,
+        design: isNewUrl ? scores.design : prevScores?.design,
       },
-    });
-    if (response) {
-      setLoadingReview(false);
-    }
+    };
+    setOpenAIResponse(_openAIResponse);
+    setLoadingReview(false);
 
-    const performance = await fetchPerformance(input); // fetch performance score
-    setOpenAIResponse({
-      response: response.response,
-      scores: {
-        design: response.scores.design,
-        performance: performance,
-        average: undefined,
-      },
-    });
-    if (response && performance) {
-      _openAIResponse = await generateGPTReview(response, performance); // merge response and performance
-      setOpenAIResponse(_openAIResponse); // complete openAIResponse
-      setLoadingScores(false);
-    }
-    if (input && user && _openAIResponse) {
-      const _newWebId = await createWebsite(
-        _imageURL,
-        _input,
-        _openAIResponse,
-        user
-      ); // create the new Website
-      const _websites: Websites = (await readWebsites(user)) || {};
-      dispatch(setWebsites(_websites));
-      if (_newWebId) {
-        router.push(`/app/${_newWebId}`);
-      }
+    const performance = await fetchPerformance(input);
+    _openAIResponse.scores.performance = performance;
+    setOpenAIResponse(_openAIResponse)
+    setLoadingScores(false);
+
+    // Add the website to the database
+    const _newWebId = await createWebsite(
+      _imageURL,
+      _input,
+      _openAIResponse,
+      user
+    );
+    const _websites: Websites = (await readWebsites(user)) || {};
+    dispatch(setWebsites(_websites));
+    setLastReviewed(_input);
+    if (_newWebId) {
+      router.push(`/app/${_newWebId}`);
     }
   };
 
@@ -138,17 +145,18 @@ export default function MainApp({ webId }: { webId: string }) {
         <div
           className={cn(
             "no-scrollbar mt-14 lg:mt-0 w-full lg:w-1/2 min-h-[400px] overflow-y-scroll rounded-xl",
-            imageURL
+            imageURL.startsWith("/") || imageURL.startsWith("https://")
               ? "lg:max-h-full"
               : "lg:h-full flex items-center justify-center border text-foreground/60"
           )}
         >
-          {imageURL ? (
+
+          {imageURL.startsWith("/") || imageURL.startsWith("https://") ? ( // Make sure it's not a random string
             <Image
               src={imageURL}
               alt="website image"
-              width={512}
-              height={512}
+              width={1024}
+              height={1024}
               priority
               className="w-full h-auto"
             />
@@ -230,8 +238,8 @@ export default function MainApp({ webId }: { webId: string }) {
               <div className="flex lg:flex-col items-center gap-3 p-3 lg:w-1/3 rounded-md bg-sidebarbackground">
                 <p>Average</p>
                 <div className="text-2xl">
-                  {openAIResponse?.scores.average ? (
-                    openAIResponse.scores.average
+                  {average ? (
+                    average
                   ) : (
                     <p
                       className={cn(
