@@ -19,13 +19,11 @@ export async function generateGPTReview(
   _response: OpenAIResponse,
   performance: number
 ) {
+  const { response, scores: _scores } = _response;
   try {
     // Formatting GPT response
-    const response: string = _response.response;
-    const design: number = _response.scores.design;
-    const average = (performance + _response.scores.design) / 2;
-    const scores: Scores = { design, performance, average };
-    const result: OpenAIResponse = { response, scores };
+    const scores = { ..._scores, performance };
+    const result = { response, scores };
 
     return result;
   } catch (error) {
@@ -33,7 +31,7 @@ export async function generateGPTReview(
   }
 }
 
-export async function fetchGPTResponse(imageURL: string | undefined) {
+export async function fetchGPTResponse(imageURL: string | undefined): Promise<OpenAIResponse> {
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
@@ -68,7 +66,6 @@ export async function fetchGPTResponse(imageURL: string | undefined) {
       scores: {
         design,
         performance: undefined,
-        average: undefined,
       },
     };
 

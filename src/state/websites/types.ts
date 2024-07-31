@@ -1,7 +1,6 @@
 export type Scores = {
-  design: number;
-  performance: number | undefined;
-  average: number | undefined;
+  design?: number;
+  performance?: number;
 };
 
 export type OpenAIResponse = {
