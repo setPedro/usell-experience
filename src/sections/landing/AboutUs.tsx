@@ -10,7 +10,7 @@ const TiroTelugu = Tiro_Telugu({
 
 export default function TopSection() {
   return (
-    <div className="w-full px-6 py-8 sm:p-[48px] lg:p-[72px] flex justify-center bg-foreground text-background">
+    <div className="w-full px-6 py-8 sm:p-12 lg:p-[72px] flex justify-center bg-foreground text-background">
       <div className="max-w-[1200px] flex flex-col gap-9">
         <div className="flex flex-col lg:flex-row lg:gap-6 items-center justify-center">
           <div className={cn("text-5xl", TiroTelugu.className)}>About Us</div>
