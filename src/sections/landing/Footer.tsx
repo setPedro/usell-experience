@@ -26,9 +26,6 @@ export default function Footer() {
               <Link href={"/#our-solution"}>
                   <p className="hover:underline w-fit">Our solution</p>
               </Link>
-              <Link href={"/#our-solution"}>
-                  <p className="hover:underline w-fit">Who we help</p>
-              </Link>
             </div>
             <div className="flex flex-col md:flex-row items-center gap-x-4 gap-y-2">
               <p className="text-lg font-semibold">Contact Us</p>

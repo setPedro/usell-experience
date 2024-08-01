@@ -20,11 +20,13 @@ import { setWebsites } from "@/state/websites/reducer";
 import { useRouter } from "next/navigation";
 import { Websites, OpenAIResponse } from "@/state/websites/types";
 import Image from "next/image";
+import { set } from "firebase/database";
 
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [lastReviewed, setLastReviewed] = useState("")
+  const [inputError, setInputError] = useState("");
 
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [loadingReview, setLoadingReview] = useState(false);
@@ -78,35 +80,51 @@ export default function MainApp({ webId }: { webId: string }) {
   }, [user, JSON.stringify(websites), webId]);
 
   const handlePreview = async () => {
+    setInputError("");
+    if (!user && !input) {
+      return null
+    }
+
     let _imageURL = imageURL;
     setImageURL("");
     setLoadingPreview(true);
-    if (input && user) {
-      _imageURL = (await generateImageFromURL(input)) as string;
-      setImageURL(_imageURL);
-    }
+    _imageURL = await generateImageFromURL(input) || "";
+    setImageURL(_imageURL);
     setLoadingPreview(false);
+
+    if (!_imageURL) {
+      setInputError("Invalid URL");
+    }
 
     return _imageURL;
   };
 
   const handleReview = async () => {
+    
     if (!user) {
       return
     }
 
     const { scores: prevScores } = openAIResponse || {};
+    setInputError("");
     setOpenAIResponse(undefined)
     setLoadingReview(true);
     setLoadingScores(true);
 
-    let _imageURL = imageURL;
+    let _imageURL: string | null = imageURL;
     let _input = formatURL(input);
     let _openAIResponse: OpenAIResponse | undefined
     const isNewUrl = lastReviewed !== _input;
     
     if (isNewUrl) {
       _imageURL = await handlePreview();
+    }
+
+    if (!_imageURL) {
+      setInputError("Invalid URL");
+      setLoadingReview(false);
+      setLoadingScores(false);
+      return
     }
 
     const { response, scores } = await fetchGPTResponse(_imageURL);
@@ -259,13 +277,18 @@ export default function MainApp({ webId }: { webId: string }) {
                 onChange={(e) => setInput(e.target.value)}
                 className="border rounded text-foreground/50 hover:text-foreground bg-transparent px-3 py-2"
               />
-              <div className="flex flex-col lg:flex-row gap-2.5 w-full lg:justify-end">
-                <Button bg="whiteapp" onClick={handlePreview}>
-                  Preview
-                </Button>
-                <Button bg="gradientapp" onClick={handleReview}>
-                  Review
-                </Button>
+              <div className="flex flex-col lg:flex-row gap-2.5 w-full lg:justify-between items-center">
+                <div>
+                  { inputError && <p className="text-red-500 text-sm">{inputError}</p> }
+                </div>
+                <div className="flex flex-col lg:flex-row gap-2.5">
+                  <Button bg="whiteapp" onClick={handlePreview}>
+                    Preview
+                  </Button>
+                  <Button bg="gradientapp" onClick={handleReview}>
+                    Review
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
