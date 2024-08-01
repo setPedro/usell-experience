@@ -17,7 +17,7 @@ export default function TopSection() {
   const user = auth?.user
 
   return (
-    <div className="w-full h-screen px-9 bg-background flex justify-center">
+    <div className="w-full h-screen px-6 sm:px-12 lg:px-[72px] bg-background flex justify-center">
       <div className="flex items-center gap-[72px] max-w-[1200px]">
         <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-6 md:w-min">

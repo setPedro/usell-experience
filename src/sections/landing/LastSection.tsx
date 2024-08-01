@@ -12,7 +12,7 @@ const TiroTelugu = Tiro_Telugu({
 
 export default function LastSection() {
   return (
-    <div className="w-full flex justify-center lg:gap-[72px] px-8 sm:p-12 lg:p-[72px] bg-background text-white">
+    <div className="w-full flex justify-center lg:gap-[72px] px-6 py-8 sm:p-12 lg:p-[72px] bg-background text-white">
       <div className="flex flex-col gap-9 max-w-[1200px]">
         <div className="flex flex-col-reverse md:flex-row items-center gap-12">
           <div className="min-w-[300px] lg:min-w-[552px]">
