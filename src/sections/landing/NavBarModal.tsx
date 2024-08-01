@@ -31,9 +31,6 @@ export const NavBarModal: React.FC<Props> = ({ onClose }) => {
           <Link href={"/#our-solution"}>
             <Button bg="none">Our solution</Button>
           </Link>
-          <Link href={"/#our-solution"}>
-            <Button bg="none">Who we help</Button>
-          </Link>
           <Link href={"/#contact"} className="mt-auto">
             <Button bg={"gradient"}>Contact us</Button>
           </Link>
