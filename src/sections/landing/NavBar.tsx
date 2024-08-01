@@ -43,9 +43,6 @@ export default function NavBar() {
               <Link href={"/#our-solution"}>
                 <Button bg="none">Our solution</Button>
               </Link>
-              <Link href={"/#our-solution"}>
-                <Button bg="none">Who we help</Button>
-              </Link>
               <Link href={"/#contact"}>
                 <Button bg="gradient">Contact us</Button>
               </Link>
