@@ -1,12 +1,5 @@
 import Image from "next/image"
-import { Tiro_Telugu } from "next/font/google"
-import { cn } from "@/utils/cn";
 import Link from "next/link";
-
-const TiroTelugu = Tiro_Telugu({
-    subsets: ["latin"],
-    weight: ["400"],
-  });
 
 export default function Footer() {
 
@@ -29,8 +22,8 @@ export default function Footer() {
             </div>
             <div className="flex flex-col md:flex-row items-center gap-x-4 gap-y-2">
               <p className="text-lg font-semibold">Contact Us</p>
-              <p>+40 752 092 526</p>
-              <p>eusebius.alexa03@gmail.com</p>
+              <Link href="tel:+40752092526" className="hover:underline">Phone</Link>
+              <Link href="mailto:eusebius.alexa03@gmail.com" className="hover:underline">Email</Link>
             </div>
           </div>
           <Link href={"/"} className="flex items-center gap-[11px]">
