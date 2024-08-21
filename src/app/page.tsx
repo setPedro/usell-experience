@@ -40,11 +40,11 @@ export default function Home() {
         <NavBar />
         <TopSection />
       </div>
+     <div ref={howToUSeRef}>
+        <HowToUse />
+      </div>
       <div ref={aboutUsRef}>
         <AboutUs />
-      </div>
-      <div ref={howToUSeRef}>
-        <HowToUse />
       </div>
       <div ref={lastSectionRef}>
         <LastSection  />

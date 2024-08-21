@@ -32,13 +32,10 @@ export default function TopSection() {
                 Our Vision
               </div>
               <div>
-                We had a vistion that our product could help underperforming
-                business websites grow their true potential.
+                We envision a world where any business, regardless of size budget, can optimize its website for success. Too many businesses struggle with underperforming websites, losing potential customers due to poor design or ineffective copy. 
               </div>
               <div>
-                By guiding you with our improving AI technology we make sure you
-                get more customers from your website, no matter how much traffic
-                you currently pull
+                uSell Experience aims to eliminate these barriers by providing intelligent, actionable feedback that transforms ordinary websites into powerful conversion tools.
               </div>
             </div>
           </div>
@@ -54,15 +51,16 @@ export default function TopSection() {
                 Who are we?
               </div>
               <div>
-                We are a small team assigned by Web Crew to develop revolutionary
-                AI products. We excel in web development, AI technology and
-                marketing.
+                uSell Experience is brought to you by a dedicated team of professionals from Web Crew, a leader in web development and AI innovation. Our team combines years of expertise in design, development, and marketing to create tools that solve real-world problems.
               </div>
               <div>
-                We also offer a variety of services such as web design, logo
-                design, web development, SEO, content writing and copywriting.
-                Interested in any of them?{" "}
-                <Link href={"/#contact"} className="text-pink cursor-pointer">Contact us here</Link>
+                We're passionate about leveraging techology to make the web a better place for businesses and users alike.
+              </div>
+              <div>
+                In addition to uSell Experience, Web Crew offers a range of services, including web design, logo creation, SEO, content writing and copywriting.
+              </div>
+              <div>
+                We understand the challenges businesses face in the digital space, and our comprehensive services are designed to meet all your web-related needs. Interested in our serives? Reach out to us directly to learn more. 
               </div>
             </div>
           </div>
@@ -78,14 +76,7 @@ export default function TopSection() {
                 Our Mission
               </div>
               <div>
-                Our mission is to help millions of businesses improve their
-                website design in a manner that boosts conversions.
-              </div>
-              <div>
-                This digital product started as a dream to automate the UX
-                decision-making process, and now with the help of our team, we can
-                materialize it and launch it as a tool that benefits your
-                businesses
+                At uSell Experience, our mission is simple: to help businesses and web professionals create websites that are not only beautiful but also highly effective. We believe that every website has the potential to perform better, and our goal is to make top-tier UX guidance accissble to everyone. By automating the feedback process with advanced AI, we're empowering users to take control of their websites and drive real, measurable results.
               </div>
             </div>
           </div>

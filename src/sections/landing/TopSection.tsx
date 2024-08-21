@@ -20,16 +20,15 @@ export default function TopSection() {
     <div className="w-full h-screen px-6 sm:px-12 lg:px-[72px] bg-background flex justify-center">
       <div className="flex items-center gap-[72px] max-w-[1200px]">
         <div className="flex flex-col gap-12">
-          <div className="flex flex-col gap-6 md:w-min">
-            <div className={cn("text-5xl md:w-max", TiroTelugu.className)}>
-              Does your conversion rate suck?
+          <div className="flex flex-col gap-6"> 
+            <div className={cn("text-3xl max-w-3xl", TiroTelugu.className)}>
+             Elevate your website's performance with AI-powered UX enhancements 
             </div>
             <div className="flex flex-col gap-3 font-medium w-full">
               <p>
-                This is your number one UX feedback and suggestions software to
-                skyrocket your website’s conversion rate.
+                Unlock your website's full potential with intelligent feedback that improves design, usability, and conversion rates - no coding skills required
               </p>
-              <p>Create an account and become a beta tester at no cost.</p>
+              <p>Create an account and become a beta tester at no cost.</p> 
             </div>
           </div>
           <div className="flex gap-6">
