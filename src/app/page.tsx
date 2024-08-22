@@ -3,11 +3,12 @@
 import NavBar from "@/sections/landing/NavBar";
 import AboutUs from "@/sections/landing/AboutUs";
 import TopSection from "@/sections/landing/TopSection";
-import HowToUse from "@/sections/landing/HowToUse";
+import FirstSection from "@/sections/landing/FirstSection";
 import LastSection from "@/sections/landing/LastSection";
 import { useEffect, useRef } from "react";
 import useHash from "@/hooks/useHash";
 import Footer from "@/sections/landing/Footer";
+import HowToUse from "@/sections/landing/HowToUse";
 
 export default function Home() {
 
@@ -40,11 +41,14 @@ export default function Home() {
         <NavBar />
         <TopSection />
       </div>
-     <div ref={howToUSeRef}>
-        <HowToUse />
+     <div> 
+        <FirstSection />
       </div>
       <div ref={aboutUsRef}>
         <AboutUs />
+      </div>
+      <div ref={howToUSeRef}>
+        <HowToUse/>
       </div>
       <div ref={lastSectionRef}>
         <LastSection  />

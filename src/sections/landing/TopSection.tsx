@@ -5,7 +5,6 @@ import { useAuth } from "@/context/FirebaseContext";
 import { cn } from "@/utils/cn";
 import { Tiro_Telugu } from "next/font/google";
 import Link from "next/link";
-import Image from "next/image"
 
 const TiroTelugu = Tiro_Telugu({
   subsets: ["latin"],
@@ -18,10 +17,10 @@ export default function TopSection() {
 
   return (
     <div className="w-full h-screen px-6 sm:px-12 lg:px-[72px] bg-background flex justify-center">
-      <div className="flex items-center gap-[72px] max-w-[1200px]">
-        <div className="flex flex-col gap-12">
+      <div className="flex items-center items-center gap-[72px] max-w-[1200px]">
+        <div className="flex flex-col gap-12 max-w-2xl">
           <div className="flex flex-col gap-6"> 
-            <div className={cn("text-3xl max-w-3xl", TiroTelugu.className)}>
+            <div className={cn("text-4xl max-w-3xl", TiroTelugu.className)}>
              Elevate your website's performance with AI-powered UX enhancements 
             </div>
             <div className="flex flex-col gap-3 font-medium w-full">
@@ -42,9 +41,11 @@ export default function TopSection() {
             </Link>
           </div>
         </div>
-        <div className="w-full hidden xl:block max-w-xl">
-          <Image src="/usellLandingImg.png" alt="landing img" width={512} height={512} className="w-full"/>
-        </div>
+        {/*
+          <div className="w-full hidden xl:block max-w-xl">
+            <Image src="/usellLandingImg.png" alt="landing img" width={512} height={512} className="w-full"/>
+          </div>
+        */}
       </div>
     </div>
   );

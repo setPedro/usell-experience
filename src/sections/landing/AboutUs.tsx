@@ -54,13 +54,7 @@ export default function TopSection() {
                 uSell Experience is brought to you by a dedicated team of professionals from Web Crew, a leader in web development and AI innovation. Our team combines years of expertise in design, development, and marketing to create tools that solve real-world problems.
               </div>
               <div>
-                We're passionate about leveraging techology to make the web a better place for businesses and users alike.
-              </div>
-              <div>
-                In addition to uSell Experience, Web Crew offers a range of services, including web design, logo creation, SEO, content writing and copywriting.
-              </div>
-              <div>
-                We understand the challenges businesses face in the digital space, and our comprehensive services are designed to meet all your web-related needs. Interested in our serives? Reach out to us directly to learn more. 
+                We understand the challenges businesses face in the digital space, and our comprehensive services are designed to meet all your web-related needs. Interested in our services? Reach out to us directly to learn more. 
               </div>
             </div>
           </div>
@@ -76,7 +70,10 @@ export default function TopSection() {
                 Our Mission
               </div>
               <div>
-                At uSell Experience, our mission is simple: to help businesses and web professionals create websites that are not only beautiful but also highly effective. We believe that every website has the potential to perform better, and our goal is to make top-tier UX guidance accissble to everyone. By automating the feedback process with advanced AI, we're empowering users to take control of their websites and drive real, measurable results.
+                At uSell Experience, our mission is simple: to help businesses and web professionals create websites that are not only beautiful but also highly effective. 
+              </div>
+              <div>
+                We believe that every website has the potential to perform better, and our goal is to make top-tier UX guidance accissble to everyone. By automating the feedback process with advanced AI, we're empowering users to take control of their websites and drive real, measurable results.
               </div>
             </div>
           </div>

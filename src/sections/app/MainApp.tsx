@@ -277,15 +277,15 @@ export default function MainApp({ webId }: { webId: string }) {
                 onChange={(e) => setInput(e.target.value)}
                 className="border rounded text-foreground/50 hover:text-foreground bg-transparent px-3 py-2"
               />
-              <div className="flex flex-col lg:flex-row gap-2.5 w-full lg:justify-between items-center">
+              <div className="flex flex-col gap-2.5 w-full md:items-end">
                 <div>
                   { inputError && <p className="text-red-500 text-sm">{inputError}</p> }
                 </div>
-                <div className="flex flex-col lg:flex-row gap-2.5">
-                  <Button bg="whiteapp" onClick={handlePreview}>
+                <div className="flex flex-col md:flex-row gap-2.5 w-full lg:w-fit"> 
+                  <Button bg="whiteapp" onClick={handlePreview} className="w-full md:w-1/2 lg:w-fit">
                     Preview
                   </Button>
-                  <Button bg="gradientapp" onClick={handleReview}>
+                  <Button bg="gradientapp" onClick={handleReview} className="w-full md:w-1/2 lg:w-fit">
                     Review
                   </Button>
                 </div>
