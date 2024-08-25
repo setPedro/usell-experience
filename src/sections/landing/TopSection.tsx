@@ -16,7 +16,14 @@ export default function TopSection() {
   const user = auth?.user
 
   return (
-    <div className="w-full h-screen px-6 sm:px-12 lg:px-[72px] bg-background flex justify-center">
+    <div className="relative w-full px-6 sm:px-12 lg:px-[72px] flex justify-center h-full h-screen max-h-[1200px]">
+      <div className="absolute w-full h-full -z-10 bg-background/60"/>
+      <video className="absolute h-full w-full object-cover -z-20 hidden lg:block" loop autoPlay muted>
+        <source src="videos/desktop.mp4" type="video/mp4"/>
+      </video>
+      <video className="absolute h-full w-full object-cover -z-20 lg:hidden" loop autoPlay muted>
+        <source src="videos/mobile.mp4" type="video/mp4"/>
+      </video>
       <div className="flex items-center items-center gap-[72px] max-w-[1200px]">
         <div className="flex flex-col gap-12 max-w-2xl">
           <div className="flex flex-col gap-6"> 
