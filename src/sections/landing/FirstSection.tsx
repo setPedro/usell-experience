@@ -18,7 +18,7 @@ export default function FirstSection() {
             A beaurtifully designed website is not enough in today&lsquo;s digital landscape. You need a site that looks great and performs exceptionally - turning visitors into customers. Yet, optimizing for conversions can be a complex, time-consuming process that requires expert knowledge in design, UX, and copywriting. That&lsquo;s where uSell Experience comes in.  
           </p>
           <p>
-            uSell Experience is an AI-driven tool designed to transform the way you approach website optimization. By analzing your web pages, it offers actionable insights and suggestions to improve design, usability, and overall user experience. Whether you're a business owner, marketer or web designer, uSell Experience is your go-to software for boosting conversion rates and enhacing site performance. 
+            uSell Experience is an AI-driven tool designed to transform the way you approach website optimization. By analzing your web pages, it offers actionable insights and suggestions to improve design, usability, and overall user experience. Whether you&lsquo;re a business owner, marketer or web designer, uSell Experience is your go-to software for boosting conversion rates and enhacing site performance. 
           </p>
         </div>
       </div>
