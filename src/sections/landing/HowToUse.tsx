@@ -20,15 +20,15 @@ export default function HowToUse() {
           </p>
           <p>
             <strong>2. Receive actionable insights<br></br></strong>
-            Within moments, you'll receive a detailed report highlighting areas for improvement. Our AI evaluates your site's usability, asethetics, and overall effectiveness, offering specific suggestions to enhance each aspect.
+            Within moments, you&lsquo;ll receive a detailed report highlighting areas for improvement. Our AI evaluates your site&lsquo;s usability, asethetics, and overall effectiveness, offering specific suggestions to enhance each aspect.
           </p>
           <p>
              <strong>3. Implement Changes Effortlessly<br></br></strong>
-             uSell Experience doesn't just tell you what to improve - it guides you on how to do it. Whether it's suggesting better colour schemes, optimizing your call-to-action buttons, or refining your copy, our tool provides step-to-step instructions. Best of all, you don't need any coding skills to make these changes. If your website is built on a platform like Wordpress, Squarespace or Wix, you can apply your suggestions with ease.
+             uSell Experience doesn&lsquo;t just tell you what to improve - it guides you on how to do it. Whether it&lsquo;s suggesting better colour schemes, optimizing your call-to-action buttons, or refining your copy, our tool provides step-to-step instructions. Best of all, you don&lsquo;t need any coding skills to make these changes. If your website is built on a platform like Wordpress, Squarespace or Wix, you can apply your suggestions with ease.
           </p>
           <p>
             <strong>4. Optimize and iterate<br></br></strong>
-            Website optimization is an ongoing process. After implementing our recommendations, you can continually refine your site based on the latest insights provided by uSell Experience. The more you use the tool, the more you'll understand your audience's needs and preferences, allowing you to fine-tune your website for maximum impact.
+            Website optimization is an ongoing process. After implementing our recommendations, you can continually refine your site based on the latest insights provided by uSell Experience. The more you use the tool, the more you&lsquo;ll understand your audience&lsquo;s needs and preferences, allowing you to fine-tune your website for maximum impact.
           </p>
         </div>
       </div>

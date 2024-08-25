@@ -28,11 +28,11 @@ export default function TopSection() {
         <div className="flex flex-col gap-12 max-w-2xl">
           <div className="flex flex-col gap-6"> 
             <div className={cn("text-4xl max-w-3xl", TiroTelugu.className)}>
-             Elevate your website's performance with AI-powered UX enhancements 
+             Elevate your website&lsquo;s performance with AI-powered UX enhancements 
             </div>
             <div className="flex flex-col gap-3 font-medium w-full">
               <p>
-                Unlock your website's full potential with intelligent feedback that improves design, usability, and conversion rates - no coding skills required
+                Unlock your website&lsquo;s full potential with intelligent feedback that improves design, usability, and conversion rates - no coding skills required
               </p>
               <p>Create an account and become a beta tester at no cost.</p> 
             </div>

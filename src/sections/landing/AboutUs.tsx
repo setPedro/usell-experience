@@ -73,7 +73,7 @@ export default function TopSection() {
                 At uSell Experience, our mission is simple: to help businesses and web professionals create websites that are not only beautiful but also highly effective. 
               </div>
               <div>
-                We believe that every website has the potential to perform better, and our goal is to make top-tier UX guidance accissble to everyone. By automating the feedback process with advanced AI, we're empowering users to take control of their websites and drive real, measurable results.
+                We believe that every website has the potential to perform better, and our goal is to make top-tier UX guidance accissble to everyone. By automating the feedback process with advanced AI, we&lsquo;re empowering users to take control of their websites and drive real, measurable results.
               </div>
             </div>
           </div>
