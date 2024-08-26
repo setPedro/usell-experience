@@ -20,7 +20,8 @@ module.exports = {
         sidebarbackground: "#2B2C3C",
         skyblue: "#5B6AFF",
         gray: "#929292",
-        appbackground: "#1E1E1E"
+        appbackground: "#1E1E1E",
+        signuploginbg: "#1C1C25",
       },
     },
   },
