@@ -54,9 +54,10 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const res = await signInWithPopup(auth, facebookProvider)
       setUser(res.user)
-    } catch (err: any) {
-      setError(err.code)
-      console.error(err.code)
+    } catch (err) {
+      const error = err as FirebaseError
+      setError(error.code)
+      console.error(error.code)
     }
   }
 
