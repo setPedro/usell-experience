@@ -5,9 +5,10 @@ interface Props {
   onClick?: () => void;
   bg: "white" | "gradient" | "whiteapp" | "gradientapp" | "none";
   className?: string
+  type?: "submit" | "reset" | "button" 
 }
 
-export default function Button({ children, onClick, bg, className }: Props) {
+export default function Button({ children, onClick, bg, className, type }: Props) {
 
   const classes = {
     common: "flex gap-2 items-center justify-center rounded-lg font-bold hover:opacity-70 transition duration-400 font-medium",
@@ -24,7 +25,7 @@ export default function Button({ children, onClick, bg, className }: Props) {
   }
 
   return (
-    <div
+    <button type={type}
       onClick={onClick}
       className={cn(
           classes.common,
@@ -34,6 +35,6 @@ export default function Button({ children, onClick, bg, className }: Props) {
       )}
     >
       {children}
-    </div>
+    </button>
   );
 };
