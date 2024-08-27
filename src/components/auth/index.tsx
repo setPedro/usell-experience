@@ -14,65 +14,43 @@ export default function SignUpLogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errors, setErrors] = useState({
-    username: false,
-    email: false,
-    password: false,
-  });
-
   const pathname = usePathname();
   const router = useRouter();
   const auth = useAuth();
 
-  async function handleSignUp() {
-    const newErrors = {
-      username: !username,
-      email: !email,
-      password: !password,
-    };
+  const isSignUp = pathname == "/account/signup"
 
-    setErrors(newErrors);
+  const errors = (() => {
+    const _errors = {
+      password: "",
+      email: ""
+    } 
 
-    if (
-      newErrors.username ||
-      newErrors.email ||
-      newErrors.password ||
-      password.length < 8
-    ) {
-      if (password.length < 8) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          password: true,
-        }));
-      }
-      return;
+    if (password !== "" && password.length < 8) {
+      _errors.password = "Password must be 8 characters long"
     }
-    auth?.signUp(email, password, username);
-  }
 
-  async function handleLogIn() {
-    const newErrors = {
-      email: !email,
-      password: !password,
-    };
+    if (auth.error) {
+      // Error will be formatted as auth/some-error. 
+      // Get the second part of the string, remove the hyphens and uppercase the first letter fo the first word
+      const splitError = auth.error.split("/")[1]
+      const finalString = splitError.split("-")
+      const upperCased = finalString[0].replace(finalString[0][0], finalString[0][0].toUpperCase())
+      finalString[0] = upperCased
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: newErrors.email,
-      password: newErrors.password,
-    }));
-
-    if (newErrors.email || newErrors.password) {
-      return;
+      _errors.email = finalString.join(" ")
     }
-    auth?.signIn(email, password);
-  }
 
-  const handleSubmit = () => {
-    if (pathname === "/account/signup") {
-      handleSignUp();
-    } else if (pathname === "/account/login") {
-      handleLogIn();
+    return _errors
+  })()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (isSignUp) {
+      auth.signUp(email, password, username)
+    } else {
+      auth.signIn(email, password)
     }
   };
 
@@ -83,7 +61,7 @@ export default function SignUpLogIn() {
           <button
             className={cn(
               "py-3 w-1/2 rounded-tl-xl text-signuploginbg font-bold",
-              pathname === "/account/signup" ? "bg-white" : "bg-foreground"
+              isSignUp ? "bg-white" : "bg-foreground"
             )}
             onClick={() => router.push("/account/signup")}
           >
@@ -92,7 +70,7 @@ export default function SignUpLogIn() {
           <button
             className={cn(
               "py-3 w-1/2 rounded-tr-xl text-signuploginbg font-bold",
-              pathname === "/account/login" ? "bg-white" : "bg-foreground"
+              !isSignUp ? "bg-white" : "bg-foreground"
             )}
             onClick={() => router.push("/account/login")}
           >
@@ -100,7 +78,7 @@ export default function SignUpLogIn() {
           </button>
         </div>
         <div className="w-full p-6">
-          <div className="flex flex-col gap-6 items-center">
+          <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit} method="GET">
             <Link href={"/"} className="flex items-center gap-3">
               <Image
                 src={"/icons/logo.svg"}
@@ -113,12 +91,11 @@ export default function SignUpLogIn() {
               </p>
             </Link>
             <div className="flex flex-col gap-4 w-full">
-              {pathname === "/account/signup" && (
+              {isSignUp && (
                 <AuthInput
                   icon={"user"}
                   placeholder={"Username"}
                   value={username}
-                  hasError={errors.username}
                   onInputChange={(e) => setUsername(e.target.value)}
                 />
               )}
@@ -126,7 +103,7 @@ export default function SignUpLogIn() {
                 icon={"mail"}
                 placeholder={"Email"}
                 value={email}
-                hasError={errors.email}
+                error={errors.email}
                 onInputChange={(e) => setEmail(e.target.value)}
               />
               <AuthInput
@@ -134,12 +111,12 @@ export default function SignUpLogIn() {
                 placeholder={"Password"}
                 value={password}
                 rightIcon="eye"
-                hasError={errors.password}
+                error={errors.password}
                 onInputChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button bg="gradient" className="w-full" onClick={handleSubmit}>
-              {pathname === "/account/signup" ? "Sign Up" : "Log In"}
+            <Button bg="gradient" type="submit" className="w-full"> 
+              { isSignUp ? "Sign Up" : "Log In"}
             </Button>
             <div className="flex gap-6">
               <Image
@@ -147,6 +124,7 @@ export default function SignUpLogIn() {
                 width={24}
                 height={24}
                 alt="Google logo"
+                className="hover:opacity-70"
                 onClick={() => auth.googleSignIn()}
               />
               <Image
@@ -154,9 +132,11 @@ export default function SignUpLogIn() {
                 width={24}
                 height={24}
                 alt="Facebook logo"
+                className="hover:opacity-70"
+                onClick={() => auth.facebookSignIn()}
               />
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

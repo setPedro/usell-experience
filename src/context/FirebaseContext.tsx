@@ -16,8 +16,12 @@ import {
   User,
   createUserWithEmailAndPassword,
   updateProfile,
+  FacebookAuthProvider
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { FirebaseError } from "firebase/app";
+import { FirebaseStorage } from "firebase/storage";
+import { usePathname } from "next/navigation";
 
 interface AuthContextProps {
   user: User | "" | null;
@@ -25,50 +29,76 @@ interface AuthContextProps {
   logOut: () => void;
   signUp: (email: string, password: string, userName: string) => void;
   googleSignIn: () => void;
+  error: string,
+  facebookSignIn: () => void
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null | "">("");
+  const [error, setError] = useState<string>("")
+  const pathname = usePathname()
+
+  // Reset error on pathname change (from sign up to log in and viceversa)
+  useEffect(() => {
+    setError("")
+  }, [pathname])
+
+  const facebookSignIn = async () => {
+    setError("")
+    try {
+      const res = await signInWithPopup(auth, facebookProvider)
+      setUser(res.user)
+    } catch (err: any) {
+      setError(err.code)
+      console.error(err.code)
+    }
+  }
 
   const googleSignIn = async () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUser(result.user);
-      })
-      .catch((error) => {
-        console.error("There was an er:", error);
-      });
+    setError("")
+    try {
+      const res = await signInWithPopup(auth, googleProvider)
+      setUser(res.user)
+    } catch (err) {
+      const error = err as FirebaseError
+      setError(error.code)
+      console.error(error.code)
+    }
   };
 
-  const signUp = async (email: string, password: string, userName: string) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-        updateProfile(userCredential.user, { displayName: userName });
-        console.log("succesfull authentication")
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
+  const signUp = async (email: string, password: string, displayName: string) => {
+    setError("")
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+      setUser(res.user)
+      updateProfile(res.user, { displayName }) 
+    } catch (err) {
+      const error = err as FirebaseError
+      setError(error.code)
+      console.log(error.code)
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    return await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setError("")
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password)
+      setUser(res.user)
+    } catch (err) {
+      const error = err as FirebaseError
+      setError(error.code)
+      console.log(error.code)
+    }
   };
 
   const logOut = async () => {
-    return await signOut(auth).catch((error) => console.log(error));
+    await signOut(auth).catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -85,6 +115,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
     logOut,
     signUp,
     googleSignIn,
+    facebookSignIn,
+    error
   };
 
   return (

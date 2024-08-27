@@ -8,7 +8,7 @@ type AuthInputProps = {
   value: string;
   rightIcon?: string;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  hasError?: boolean;
+  error?: string
 };
 
 export default function AuthInput({
@@ -17,7 +17,7 @@ export default function AuthInput({
   value,
   rightIcon,
   onInputChange,
-  hasError = false,
+  error,
 }: AuthInputProps) {
   const [inputType, setInputType] = useState<string>(
     rightIcon ? "password" : "text"
@@ -28,39 +28,46 @@ export default function AuthInput({
   };
 
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between w-full rounded-md p-3",
-        "bg-foreground",
-        hasError ? "border border-red-500" : ""
-      )}
-    >
-      <div className="flex gap-3 items-center w-full">
-        <Image
-          src={`/icons/signup/${icon}.svg`}
-          width={20}
-          height={20}
-          alt={`${icon} icon`}
-        />
-        <input
-          type={inputType}
-          placeholder={placeholder}
-          value={value}
-          className="pl-3 outline-none bg-foreground text-darkbackground w-full"
-          onChange={onInputChange}
-        />
-      </div>
-      {rightIcon && (
-        <Image
-          src={`/icons/signup/${
-            inputType === "password" ? "eyeoff" : "eye"
-          }.svg`}
-          width={20}
-          height={20}
-          alt={`${rightIcon} icon`}
-          className="cursor-pointer"
-          onClick={toggleInputType}
-        />
+    <div className="flex flex-col gap-1">
+      <div
+        className={cn(
+          "flex items-center justify-between w-full rounded-md p-3",
+          "bg-foreground",
+          error ? "border border-red-500" : ""
+        )}
+      >
+        <div className="flex gap-3 items-center w-full">
+          <Image
+            src={`/icons/signup/${icon}.svg`}
+            width={20}
+            height={20}
+            alt={`${icon} icon`}
+          />
+          <input
+            type={inputType}
+            placeholder={placeholder}
+            value={value}
+            className="pl-3 outline-none bg-foreground text-darkbackground w-full"
+            onChange={onInputChange}
+          />
+        </div>
+       {rightIcon && (
+          <Image
+            src={`/icons/signup/${
+              inputType === "password" ? "eyeoff" : "eye"
+            }.svg`}
+            width={20}
+            height={20}
+            alt={`${rightIcon} icon`}
+            className="cursor-pointer"
+            onClick={toggleInputType}
+          />
+        )}
+     </div>
+     {error && (
+        <p className="text-sm text-red-500">
+          {error}
+        </p>
       )}
     </div>
   );
