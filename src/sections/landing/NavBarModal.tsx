@@ -19,7 +19,12 @@ export const NavBarModal: React.FC<Props> = ({ onClose }) => {
     >
       <div className="h-full flex flex-col gap-6 p-6 rounded-r bg-darkbackground text-foreground">
         <p className="flex justify-center border-b pb-4">
-        <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
+          <Image
+            src={"/icons/whiteLogo.svg"}
+            width={24}
+            height={24}
+            alt="logo"
+          />
         </p>
         <div className="flex flex-col gap-6 h-full">
           <Link href={"/#about-us"}>

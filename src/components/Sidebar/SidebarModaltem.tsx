@@ -27,4 +27,4 @@ export default function SidebarModalItem({ isSelected, website }: Props) {
       <p className="text-gray font-medium text-xs">{timeSince}</p>
     </Link>
   );
-};
+}

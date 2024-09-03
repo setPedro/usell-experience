@@ -28,13 +28,17 @@ export default function SideBar() {
       {/* lg:hidden sidebar */}
       <div className="w-full flex justify-between items-center lg:hidden bg-sidebarbackground p-4">
         <Link href="/">
-          <Image src={"/icons/whiteLogo.svg"} width={24} height={24} alt="logo"/>
+          <Image
+            src={"/icons/whiteLogo.svg"}
+            width={24}
+            height={24}
+            alt="logo"
+          />
         </Link>
         <div
           className="hover:opacity-60"
           onClick={() => setSideBarModalIsOpen(!sideBarModalIsOpen)}
-        >
-        </div>
+        ></div>
       </div>
     </div>
   );

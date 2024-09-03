@@ -18,39 +18,42 @@ export default function SignUpLogIn() {
   const router = useRouter();
   const auth = useAuth();
 
-  const isSignUp = pathname == "/account/signup"
+  const isSignUp = pathname == "/account/signup";
 
   const errors = (() => {
     const _errors = {
       password: "",
-      email: ""
-    } 
+      email: "",
+    };
 
     if (password !== "" && password.length < 8) {
-      _errors.password = "Password must be 8 characters long"
+      _errors.password = "Password must be 8 characters long";
     }
 
     if (auth.error) {
-      // Error will be formatted as auth/some-error. 
+      // Error will be formatted as auth/some-error.
       // Get the second part of the string, remove the hyphens and uppercase the first letter fo the first word
-      const splitError = auth.error.split("/")[1]
-      const finalString = splitError.split("-")
-      const upperCased = finalString[0].replace(finalString[0][0], finalString[0][0].toUpperCase())
-      finalString[0] = upperCased
+      const splitError = auth.error.split("/")[1];
+      const finalString = splitError.split("-");
+      const upperCased = finalString[0].replace(
+        finalString[0][0],
+        finalString[0][0].toUpperCase()
+      );
+      finalString[0] = upperCased;
 
-      _errors.email = finalString.join(" ")
+      _errors.email = finalString.join(" ");
     }
 
-    return _errors
-  })()
+    return _errors;
+  })();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (isSignUp) {
-      auth.signUp(email, password, username)
+      auth.signUp(email, password, username);
     } else {
-      auth.signIn(email, password)
+      auth.signIn(email, password);
     }
   };
 
@@ -78,7 +81,11 @@ export default function SignUpLogIn() {
           </button>
         </div>
         <div className="w-full p-6">
-          <form className="flex flex-col gap-6 items-center" onSubmit={handleSubmit} method="GET">
+          <form
+            className="flex flex-col gap-6 items-center"
+            onSubmit={handleSubmit}
+            method="GET"
+          >
             <Link href={"/"} className="flex items-center gap-3">
               <Image
                 src={"/icons/logo.svg"}
@@ -115,8 +122,8 @@ export default function SignUpLogIn() {
                 onInputChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button bg="gradient" type="submit" className="w-full"> 
-              { isSignUp ? "Sign Up" : "Log In"}
+            <Button bg="gradient" type="submit" className="w-full">
+              {isSignUp ? "Sign Up" : "Log In"}
             </Button>
             <div className="flex gap-6">
               <Image

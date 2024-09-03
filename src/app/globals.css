@@ -3,16 +3,12 @@
 @import "tailwindcss/utilities";
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 :root {
-  color: #EAEDFF;
-  background: #1E1E1E;
-}
-
-colorstry {
-  color: #39419e44
+  color: #eaedff;
+  background: #1e1e1e;
 }

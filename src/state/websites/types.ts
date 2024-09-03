@@ -16,9 +16,9 @@ export type Web = {
   id: string;
 };
 
-export type Websites = Record<string, Web>
+export type Websites = Record<string, Web>;
 
-export type WebsiteState = { 
+export type WebsiteState = {
   websites: Websites;
   isWebsitesLoading: boolean;
 };

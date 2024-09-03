@@ -8,7 +8,7 @@ type AuthInputProps = {
   value: string;
   rightIcon?: string;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  error?: string
+  error?: string;
 };
 
 export default function AuthInput({
@@ -51,7 +51,7 @@ export default function AuthInput({
             onChange={onInputChange}
           />
         </div>
-       {rightIcon && (
+        {rightIcon && (
           <Image
             src={`/icons/signup/${
               inputType === "password" ? "eyeoff" : "eye"
@@ -63,12 +63,8 @@ export default function AuthInput({
             onClick={toggleInputType}
           />
         )}
-     </div>
-     {error && (
-        <p className="text-sm text-red-500">
-          {error}
-        </p>
-      )}
+      </div>
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }

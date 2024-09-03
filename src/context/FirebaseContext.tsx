@@ -20,7 +20,6 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
-import { FirebaseStorage } from "firebase/storage";
 import { usePathname } from "next/navigation";
 
 interface AuthContextProps {

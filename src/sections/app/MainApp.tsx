@@ -6,7 +6,6 @@ import { useAuth } from "@/context/FirebaseContext";
 import {
   fetchGPTResponse,
   fetchPerformance,
-  generateGPTReview,
   generateImageFromURL,
 } from "@/services/chat";
 import { cn } from "@/utils/cn";
@@ -20,7 +19,6 @@ import { setWebsites } from "@/state/websites/reducer";
 import { useRouter } from "next/navigation";
 import { Websites, OpenAIResponse } from "@/state/websites/types";
 import Image from "next/image";
-import { set } from "firebase/database";
 
 export default function MainApp({ webId }: { webId: string }) {
   const [input, setInput] = useState("");

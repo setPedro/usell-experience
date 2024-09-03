@@ -1,4 +1,4 @@
-import { OpenAIResponse, Scores } from "@/state/websites/types";
+import { OpenAIResponse } from "@/state/websites/types";
 
 // convertapi
 export async function generateImageFromURL(input: string) {
@@ -9,10 +9,10 @@ export async function generateImageFromURL(input: string) {
     const data = await res.json();
     const image_url = data.Files[0].Url as string | null;
 
-    return image_url
+    return image_url;
   } catch (error) {
     console.error("Error fetching data:", error);
-    return null
+    return null;
   }
 }
 
@@ -32,7 +32,9 @@ export async function generateGPTReview(
   }
 }
 
-export async function fetchGPTResponse(imageURL: string | undefined): Promise<OpenAIResponse> {
+export async function fetchGPTResponse(
+  imageURL: string | undefined
+): Promise<OpenAIResponse> {
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
@@ -79,14 +81,13 @@ export async function fetchGPTResponse(imageURL: string | undefined): Promise<Op
 
 export async function fetchPerformance(input: string) {
   try {
-
     const response = await fetch(
       `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${input}`
     );
     const data = await response.json();
     const score = await data.lighthouseResult?.categories?.performance?.score;
     const performance = Math.round(parseFloat(score) * 100);
-    return performance
+    return performance;
   } catch (error) {
     console.error("Error fetching performance data:", error);
     throw error;

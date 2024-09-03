@@ -13,7 +13,7 @@ const websitesSlice = createSlice({
     setWebsites(state, action: PayloadAction<Websites>) {
       state.websites = action.payload;
       state.isWebsitesLoading = false;
-    }
+    },
   },
 });
 

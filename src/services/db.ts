@@ -4,7 +4,6 @@ import { generateId } from "@/utils/generateId";
 import { User } from "firebase/auth";
 import { child, get, ref, set } from "firebase/database";
 
-// create website
 export const createWebsite = async (
   imageURL: string,
   input: string,
@@ -22,13 +21,12 @@ export const createWebsite = async (
       id,
     };
     _addWebsites(id, newWebsite, user);
-    return id
+    return id;
   } else {
     console.log("Website URL required");
   }
 };
 
-// read websites from db
 export const readWebsites = async (user: User) => {
   const userId = user.uid;
   const userRef = ref(db);
@@ -44,12 +42,7 @@ export const readWebsites = async (user: User) => {
   }
 };
 
-// write websites to db
-export const _addWebsites = async (
-  id: string,
-  newWebsite: Web,
-  user: User
-) => {
+export const _addWebsites = async (id: string, newWebsite: Web, user: User) => {
   const userId = user.uid;
   const userRef = ref(db, `users/${userId}/${id}`);
   set(userRef, newWebsite)
