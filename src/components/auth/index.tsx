@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import { useAuth } from "@/context/FirebaseContext";
 
 export default function SignUpLogIn() {

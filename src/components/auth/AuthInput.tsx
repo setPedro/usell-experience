@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 
 type AuthInputProps = {
   icon: string;

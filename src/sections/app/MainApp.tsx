@@ -8,11 +8,11 @@ import {
   fetchPerformance,
   generateImageFromURL,
 } from "@/services/chat";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { createWebsite, readWebsites } from "@/services/db";
-import { formatURL } from "@/utils/formatURL";
+import { formatURL } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/state/store";
 import { selectWebsites } from "@/state/websites/selector";
 import { setWebsites } from "@/state/websites/reducer";

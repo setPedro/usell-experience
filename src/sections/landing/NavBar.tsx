@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import { NavBarModal } from "./NavBarModal";
 import { usePathname } from "next/navigation";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
 

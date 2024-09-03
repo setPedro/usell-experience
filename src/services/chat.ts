@@ -1,6 +1,5 @@
 import { OpenAIResponse } from "@/state/websites/types";
 
-// convertapi
 export async function generateImageFromURL(input: string) {
   try {
     const res = await fetch(

@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import { Tiro_Telugu } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";

@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import { useAuth } from "@/context/FirebaseContext";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import { Tiro_Telugu } from "next/font/google";
 import Link from "next/link";
 

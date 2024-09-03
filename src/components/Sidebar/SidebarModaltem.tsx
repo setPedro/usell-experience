@@ -1,5 +1,5 @@
 import { Web } from "@/state/websites/types";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils";
 import { AuthContextProvider } from "@/context/FirebaseContext";
 import { Providers } from "@/state/provider";
 
