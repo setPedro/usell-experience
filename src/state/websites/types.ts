@@ -1,6 +1,6 @@
 export type Scores = {
   design?: number;
-  performance?: number;
+  performance?: number | null;
 };
 
 export type OpenAIResponse = {
