@@ -80,15 +80,22 @@ export async function fetchGPTResponse(
 
 export async function fetchPerformance(input: string) {
   try {
+    const API_KEY = process.env.NEXT_PUBLIC_LIGHTHOUSE_API_KEY;
     const response = await fetch(
-      `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${input}`
+      `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${input}&key=${API_KEY}`
     );
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status} ${response.statusText}`);
+    }
+
     const data = await response.json();
-    const score = await data.lighthouseResult?.categories?.performance?.score;
+    const score = data.lighthouseResult?.categories?.performance?.score;
     const performance = Math.round(parseFloat(score) * 100);
+    console.log("Performance: ", performance);
     return performance;
   } catch (error) {
     console.error("Error fetching performance data:", error);
-    throw error;
+    return null;
   }
 }
