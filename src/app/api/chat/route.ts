@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   const { image_url } = await req.json();
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4-vision-preview",
+    model: "gpt-4o",
 
     messages: [
       {
@@ -28,7 +28,9 @@ export async function POST(req: Request) {
           },
           {
             type: "image_url",
-            image_url,
+            image_url: {
+              url: image_url,
+            },
           },
         ],
       },
