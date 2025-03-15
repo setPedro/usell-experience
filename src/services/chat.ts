@@ -92,7 +92,7 @@ export async function fetchPerformance(input: string) {
     const data = await response.json();
     const score = data.lighthouseResult?.categories?.performance?.score;
     const performance = Math.round(parseFloat(score) * 100);
-    console.log("Performance: ", performance);
+
     return performance;
   } catch (error) {
     console.error("Error fetching performance data:", error);
